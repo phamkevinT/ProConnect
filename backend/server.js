@@ -8,7 +8,7 @@ const PORT = 4000;
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use('/users', todoRoutes);
+// app.use('/users', [ROUTER_NAME]); variable ROUTER_NAME must contain value "express.Router()" 
 
 //Done so to not get DeprecationWarnings
 mongoose.connect('mongodb://127.0.0.1:27017/todos', {

@@ -55,3 +55,37 @@ h1 {
 .form-signin .form-control:focus {
     z-index: 2;
 }
+
+/* Log in & Sign up Section */
+.login-top {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.login-bottom {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.login-name {
+    color: #195e83;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    font-family: Montserrat;
+}
+
+.btn-signup {
+    width: 100%;
+    border-radius: 25px;
+    margin-top: 10px;
+}
+
+.line {
+    width: 100%;
+    height: 20px;
+    border-bottom: 1px solid rgb(177, 177, 177);
+    position: center;
+    margin-bottom: 30px;
+}

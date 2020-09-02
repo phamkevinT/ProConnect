@@ -1,0 +1,27 @@
+h1 {
+    font-weight: 600;
+}
+
+/* Header Section */
+.container-fluid {
+    padding: 10% 15%;
+}
+
+.header-section {
+    background-color: #195e83;
+    color: #FFF;
+}
+
+.left-section {
+    text-align: left;
+    padding-right: 5%;
+}
+
+.btn-learn {
+    margin-top: 10px;
+}
+
+.right-section {
+    padding-left: 7%;
+    padding-right: 7%;
+}

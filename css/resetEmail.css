@@ -1,0 +1,44 @@
+body
+{
+  font-family: "Montserrat";
+  text-align: center;
+  margin: 0;
+}
+
+h1, h2
+{
+  font-family: "Montserrat-Bold";
+  font-size: 3rem;
+  color: #195e83;
+}
+
+.resetEmailPage
+{
+  background-image: url("https://www.colorhexa.com/195e83.png");
+  background-size: 115%;
+}
+
+.insideContainer
+{
+  position: absolute;
+  border-radius: 50px;
+  top: 30%;
+  left: 42%;
+  background-color: white;
+  padding: 2%;
+  text-align: center;
+  height: 33%;
+  width: 10%;
+}
+
+.insideHeader
+{
+  padding-bottom: 5%;
+  padding-top: 2%;
+}
+
+.goSignIn
+{
+  font-size: 1.5rem;
+  color: blue;
+}

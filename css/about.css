@@ -1,0 +1,67 @@
+body
+{
+  font-family: "Montserrat";
+  text-align: center;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+  font-family: "Montserrat-Bold";
+  color: #fff;
+  font-size: 4rem;
+}
+
+p
+{
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+
+/* çontainers */
+
+.container-fluid
+{
+  padding: 7% 15%;
+}
+
+ /* sections */
+
+ .colored-section
+ {
+   background-color: #195e83;
+   color: #fff;
+ }
+
+ .light-section
+ {
+   background-color: lightblue;
+ }
+
+/* About Page */
+
+.contactDetails
+{
+  padding-bottom: 5%;
+}
+
+.contact-btn
+{
+  font-family: arial;
+  color: grey;
+  font-size: 20px;
+  text-decoration: none;
+  padding: 10px 25px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  background: lightblue;
+}
+
+.contact-btn:hover
+{
+  color: black;
+  background: blue;
+}

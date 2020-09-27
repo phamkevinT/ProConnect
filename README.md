@@ -25,3 +25,9 @@ San Jose State University
 - Kevin Pham
 - Andrew Wilson
 ```
+
+## Credit
+
+```python
+- User Profile Information Skeleton Template: [BootSnipp - Bootstrap Profile Page Design](https://bootsnipp.com/snippets/K0ZmK)
+```

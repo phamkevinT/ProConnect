@@ -27,7 +27,4 @@ San Jose State University
 ```
 
 ## Credit
-
-```python
-- User Profile Information Skeleton Template: [BootSnipp - Bootstrap Profile Page Design](https://bootsnipp.com/snippets/K0ZmK)
-```
+[BootSnipp - Bootstrap Profile Page Design](https://bootsnipp.com/snippets/K0ZmK)

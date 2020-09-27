@@ -1,6 +1,26 @@
 /* Profile template provided by https://bootsnipp.com/snippets/K0ZmK */
 /* Modifcations are made from the template to fit our needs */
 
+* {
+    box-sizing: border-box;
+}
+
+hr {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-style: none;
+    /* Make all sides of border not visible */
+    border-top-style: dotted;
+    /* Change top-side solid border to dottede border */
+    border-color: rgb(255, 255, 255);
+    /* Color of the dots */
+    border-width: 5px;
+    /* Size of the dots */
+    width: 5%;
+    /* Size of the horiztonal rule (hr) based on percent of website */
+   
+}
+
 body {
     margin: 0;
 }
@@ -123,4 +143,26 @@ body {
 .profile-tab p {
     font-weight: 600;
     color: #0062cc;
+}
+
+/* Top section */
+#top-section {
+    /* background-image: url('images/stock-photos/computer.jpg'); */
+    background-color: thistle;
+}
+
+/* Middle Section */
+#mid-section {
+    text-align: center;
+    background: -webkit-linear-gradient(left, #6b5f5f, #b3b3b3);
+
+}
+
+.portfolio-section {
+    padding: 1% 15%;
+}
+
+.portfolio {
+    font-family: Montserrat;
+    font-size: 36px;
 }

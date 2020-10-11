@@ -25,11 +25,14 @@
   <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
+      <!-- Navigiation bar left hand side title -->
       <a class="navbar-brand" href="#">ProConnect</a>
+      <!-- Bootstrap's button styling, also makes it responsive to window sizing-->
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
         aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+      <!-- The navbar itself -->
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
@@ -57,16 +60,38 @@
     <div class="row">
 
       <!-- Blog Entries Column -->
+      <!-- Takes 8 out of 12 spacing, leaving 4 spacing for the side menus -->
       <div class="col-md-8">
 
         <!-- Welcome Header -->
         <h1 class="my-4">Welcome, [Name]
         </h1>
 
-        <!-- Going to have to implement this as a React container to prevent redundacy -->
+        <!-- Going to have to implement these blog posts as a React container to prevent redundacy -->
+
         <!-- Blog Post -->
         <div class="card mb-4">
-          <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+          <!-- Post image source -->
+          <img class="card-img-top" src="http://placehold.it/750x300" alt="post-image">
+          <div class="card-body">
+            <!-- Post title -->
+            <h2 class="card-title">Post Title</h2>
+            <!-- Post text body -->
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque,
+              nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus
+              possimus, veniam magni quis!</p>
+            <a href="#" class="btn btn-primary">Read More &rarr;</a>
+          </div>
+          <!-- Post date -->
+          <div class="card-footer text-muted">
+            Posted on January 1, 2020 by
+            <a href="#">Start Bootstrap</a>
+          </div>
+        </div>
+
+        <!-- Blog Post -->
+        <div class="card mb-4">
+          <img class="card-img-top" src="http://placehold.it/750x300" alt="post-image">
           <div class="card-body">
             <h2 class="card-title">Post Title</h2>
             <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque,
@@ -82,7 +107,7 @@
 
         <!-- Blog Post -->
         <div class="card mb-4">
-          <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+          <img class="card-img-top" src="http://placehold.it/750x300" alt="post-image">
           <div class="card-body">
             <h2 class="card-title">Post Title</h2>
             <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque,
@@ -96,21 +121,7 @@
           </div>
         </div>
 
-        <!-- Blog Post -->
-        <div class="card mb-4">
-          <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-          <div class="card-body">
-            <h2 class="card-title">Post Title</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque,
-              nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus
-              possimus, veniam magni quis!</p>
-            <a href="#" class="btn btn-primary">Read More &rarr;</a>
-          </div>
-          <div class="card-footer text-muted">
-            Posted on January 1, 2020 by
-            <a href="#">Start Bootstrap</a>
-          </div>
-        </div>
+
         <!-- Page Navigation -->
         <ul class="pagination justify-content-center mb-4">
           <li class="page-item">
@@ -139,6 +150,7 @@
         </div>
 
         <!-- Categories Widget -->
+        <!-- Links to externals -->
         <div class="card my-4">
           <h5 class="card-header">Categories</h5>
           <div class="card-body">
@@ -174,6 +186,7 @@
         </div>
 
         <!-- Side Widget -->
+        <!-- Not sure what we can put here yet. Maybe credit to all the templates?-->
         <div class="card my-4">
           <h5 class="card-header">Side Widget</h5>
           <div class="card-body">
@@ -191,6 +204,7 @@
   <!-- Footer -->
   <footer class="py-5 bg-dark">
     <div class="container">
+      <!-- Will use react to make year change over time -->
       <p class="m-0 text-center text-white">Copyright &copy; ProConnect 2020</p>
     </div>
   </footer>

@@ -10,6 +10,15 @@ To be added....
 
 ```
 
+## Usage
+
+```bash
+- Run local MongoDB using the cmd: 'mongod'
+- Start the server using the cmd: 'nodemon app.js'
+- Open browser and go to 'localhost:3000'
+
+```
+
 ## Tools
 
 ```python

@@ -16,7 +16,7 @@ app.use(
   })
 );
 
-// Conncting to local mongo database
+// Conncting to local mongo database using database named userDB
 mongoose.connect("mongodb://localhost:27017/userDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -30,13 +30,6 @@ var userSchema = new Schema({
 
 // Creating the model using the schema
 var User = new mongoose.model("User", userSchema);
-
-// var comment1 = new User({
-//     email: 'blah@blah.com',
-//     password: '123',
-// });
-
-// comment1.save();
 
 // Home Route
 app.get("/", function (req, res) {
@@ -53,7 +46,7 @@ app.get("/register", function (req, res) {
   res.render("register");
 });
 
-// Capture from register post request
+// Capture from register post request when user submit the register form
 app.post("/register", function (req, res) {
   // Creating the new user from user's input in register page
   var newUser = new User({
@@ -61,12 +54,13 @@ app.post("/register", function (req, res) {
     password: req.body.password,
   });
 
-  // Save the user
+  // Save the user to the database
   newUser.save(function (err) {
     // Check for error and print it, else show home page
     if (err) {
       console.log(err);
     } else {
+      // Render the homepage
       res.render("home");
     }
   });
@@ -93,6 +87,8 @@ app.post("/login", function (req, res) {
   });
 });
 
+
+// Check to see if server is running
 app.listen(3000, function () {
   console.log("Server started on port 3000.");
 });

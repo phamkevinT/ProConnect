@@ -24,6 +24,8 @@ mongoose.connect("mongodb://localhost:27017/userDB", {
 
 // User Schema that takes an email and password
 var userSchema = new Schema({
+  fName: { type: String },
+  lName: { type: String },
   email: { type: String },
   password: { type: String },
 });
@@ -50,6 +52,8 @@ app.get("/register", function (req, res) {
 app.post("/register", function (req, res) {
   // Creating the new user from user's input in register page
   var newUser = new User({
+    fName: req.body.fName,
+    lName: req.body.lName,
     email: req.body.username,
     password: req.body.password,
   });
@@ -69,6 +73,8 @@ app.post("/register", function (req, res) {
 // Login POST Reqquest
 // Take the user's inputs (username and email) and compare against what's in the database
 app.post("/login", function (req, res) {
+  const fName = req.body.fName;
+  const lName = req.body.lName;
   const username = req.body.username;
   const password = req.body.password;
 
@@ -86,7 +92,6 @@ app.post("/login", function (req, res) {
     }
   });
 });
-
 
 // Check to see if server is running
 app.listen(3000, function () {

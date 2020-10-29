@@ -48,6 +48,21 @@ app.get("/register", function (req, res) {
   res.render("register");
 });
 
+// Profile Route
+app.get("/profile", function (req, res) {
+  res.render("profile");
+});
+
+// About Route (PAGE NOT IMPLEMENTED YET)
+app.get("/about", function (req, res) {
+  res.render("about");
+});
+
+// Contact Route (PAGE NOT IMPLEMENTED YET)
+app.get("/contact", function (req, res) {
+  res.render("contact");
+});
+
 // Capture from register post request when user submit the register form
 app.post("/register", function (req, res) {
   // Creating the new user from user's input in register page

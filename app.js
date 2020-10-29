@@ -58,11 +58,10 @@ app.get("/about", function (req, res) {
   res.render("about");
 });
 
-// Contact Route (PAGE NOT IMPLEMENTED)
+// Contact Route (PAGE NOT IMPLEMENTED YET)
 app.get("/contact", function (req, res) {
   res.render("contact");
 });
-
 
 // Capture from register post request when user submit the register form
 app.post("/register", function (req, res) {

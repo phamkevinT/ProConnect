@@ -53,11 +53,15 @@ app.get("/profile", function (req, res) {
   res.render("profile");
 });
 
+// About Route (PAGE NOT IMPLEMENTED YET)
+app.get("/about", function (req, res) {
+  res.render("about");
+});
 
-
-
-
-
+// Contact Route (PAGE NOT IMPLEMENTED)
+app.get("/contact", function (req, res) {
+  res.render("contact");
+});
 
 
 // Capture from register post request when user submit the register form

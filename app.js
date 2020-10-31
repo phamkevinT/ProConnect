@@ -4,10 +4,12 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
-const md5 = require("md5");
+
+// bcrypt password hash hunction
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 const Schema = mongoose.Schema;
-
 
 const app = express();
 
@@ -70,24 +72,29 @@ app.get("/contact", function (req, res) {
 
 // Capture from register post request when user submit the register form
 app.post("/register", function (req, res) {
-  // Creating the new user from user's input in register page
-  var newUser = new User({
-    fName: req.body.fName,
-    lName: req.body.lName,
-    email: req.body.username,
-    // Use hash function to hash the password
-    password: md5(req.body.password),
-  });
 
-  // Save the user to the database
-  newUser.save(function (err) {
-    // Check for error and print it, else show home page
-    if (err) {
-      console.log(err);
-    } else {
-      // Render the homepage
-      res.render("home");
-    }
+  // bcrypt hashes the password
+  // saltRounds is the number of time the password is hashed
+  bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
+
+    // Creating the new user from user's input in register page
+    const newUser = new User({
+      fName: req.body.fName,
+      lName: req.body.lName,
+      email: req.body.username,
+      password: hash
+    });
+
+    // Save the user to the database
+    newUser.save(function (err) {
+      // Check for error and print it, else show home page
+      if (err) {
+        console.log(err);
+      } else {
+        // Render the homepage
+        res.render("home");
+      }
+    });
   });
 });
 
@@ -97,8 +104,7 @@ app.post("/login", function (req, res) {
   const fName = req.body.fName;
   const lName = req.body.lName;
   const username = req.body.username;
-  // Hash Password 
-  const password = md5(req.body.password);
+  const password = req.body.password;
 
   // See if user's inputted email matches any in the database
   User.findOne({ email: username }, function (err, foundUser) {
@@ -107,10 +113,17 @@ app.post("/login", function (req, res) {
     } else {
       // If the user exists in the database, compare to see if the inputted password is matches password in the database
       if (foundUser) {
-        // Compare the hased passwords
-        if (foundUser.password === password) {
-          res.render("home");
-        }
+        // Compare the hashed passwords
+        bcrypt.compare(password, foundUser.password, function(err, result) {
+          // If true, log the user in and display the home page
+          if(result === true) {
+            res.render("home");
+          }
+          // Not true, redirect back to login page
+          else {
+            res.render("login");
+          }
+        });
       }
     }
   });

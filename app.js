@@ -35,6 +35,7 @@ const userSchema = new mongoose.Schema({
 
 // Secret key used to encrypt the password
 const secret = "Thisisourlittlesecret.";
+
 // Adding encrypt package as a plugin
 // Only encrypt the field 'password'. Mongoose will encrypt when 'saving' user and decrypt when 'find' password match
 userSchema.plugin(encrypt, {secret: secret, excludeFromEncryption: ['fName', 'lName', 'email']});

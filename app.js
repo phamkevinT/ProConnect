@@ -1,4 +1,5 @@
 //jshint esversion:6
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -33,12 +34,12 @@ const userSchema = new mongoose.Schema({
   password: { type: String },
 });
 
-// Secret key used to encrypt the password
-const secret = "Thisisourlittlesecret.";
 
 // Adding encrypt package as a plugin
-// Only encrypt the field 'password'. Mongoose will encrypt when 'saving' user and decrypt when 'find' password match
-userSchema.plugin(encrypt, {secret: secret, excludeFromEncryption: ['fName', 'lName', 'email']});
+// Only encrypt the field 'password'.
+// The secret key is grabbed from environment variable in the .env file 
+// For best practice, we should GITIGNORE the .env file to prevent leaking the key
+userSchema.plugin(encrypt, {secret: process.env.SECRET, excludeFromEncryption: ['fName', 'lName', 'email']});
 
 // Creating the model using the schema
 const User = new mongoose.model("User", userSchema);

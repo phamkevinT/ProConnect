@@ -3,7 +3,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
+const encrypt = require("mongoose-encryption");
+
 const Schema = mongoose.Schema;
+
 
 const app = express();
 
@@ -23,15 +26,22 @@ mongoose.connect("mongodb://localhost:27017/userDB", {
 });
 
 // User Schema that takes an email and password
-var userSchema = new Schema({
+const userSchema = new mongoose.Schema({
   fName: { type: String },
   lName: { type: String },
   email: { type: String },
   password: { type: String },
 });
 
+// Secret key used to encrypt the password
+const secret = "Thisisourlittlesecret.";
+
+// Adding encrypt package as a plugin
+// Only encrypt the field 'password'. Mongoose will encrypt when 'saving' user and decrypt when 'find' password match
+userSchema.plugin(encrypt, {secret: secret, excludeFromEncryption: ['fName', 'lName', 'email']});
+
 // Creating the model using the schema
-var User = new mongoose.model("User", userSchema);
+const User = new mongoose.model("User", userSchema);
 
 // Home Route
 app.get("/", function (req, res) {

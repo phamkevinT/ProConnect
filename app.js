@@ -4,7 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
-const encrypt = require("mongoose-encryption");
+const md5 = require("md5");
 
 const Schema = mongoose.Schema;
 
@@ -34,12 +34,6 @@ const userSchema = new mongoose.Schema({
   password: { type: String },
 });
 
-
-// Adding encrypt package as a plugin
-// Only encrypt the field 'password'.
-// The secret key is grabbed from environment variable in the .env file 
-// For best practice, we should GITIGNORE the .env file to prevent leaking the key
-userSchema.plugin(encrypt, {secret: process.env.SECRET, excludeFromEncryption: ['fName', 'lName', 'email']});
 
 // Creating the model using the schema
 const User = new mongoose.model("User", userSchema);
@@ -81,7 +75,8 @@ app.post("/register", function (req, res) {
     fName: req.body.fName,
     lName: req.body.lName,
     email: req.body.username,
-    password: req.body.password,
+    // Use hash function to hash the password
+    password: md5(req.body.password),
   });
 
   // Save the user to the database
@@ -102,7 +97,8 @@ app.post("/login", function (req, res) {
   const fName = req.body.fName;
   const lName = req.body.lName;
   const username = req.body.username;
-  const password = req.body.password;
+  // Hash Password 
+  const password = md5(req.body.password);
 
   // See if user's inputted email matches any in the database
   User.findOne({ email: username }, function (err, foundUser) {
@@ -111,6 +107,7 @@ app.post("/login", function (req, res) {
     } else {
       // If the user exists in the database, compare to see if the inputted password is matches password in the database
       if (foundUser) {
+        // Compare the hased passwords
         if (foundUser.password === password) {
           res.render("home");
         }

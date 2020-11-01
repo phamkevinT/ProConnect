@@ -2,14 +2,16 @@ const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const pcRoutes = express.Router();
+var fs = require("fs");
 
 const app = express();
 const port = 4000;
 
 const DATABASE_NAME = "sample_analytics";
 
-let Quiz = require('./user.model');
+
 const { collection } = require('./user.model');
+const { stringify } = require('querystring');
 
 app.use(cors());
 app.use(express.json());
@@ -58,8 +60,39 @@ app.get('/api/getOneUserByUsername', (req, res) => {
 
 })
 
-/*To be implemented */
+/*comphrensiveSearch covers all search functionality. Will perform a search based on whatever is passed in the parameters 
+(FirstName,LastName, Title, maxHourlyRate, minHourlyRate and skills)*/
 app.get('/api/comphrensiveSearch', (req, res) => {
+
+    var str = '{';
+    console.log("length: " + str.length)
+    if(req.query.FirstName != null)
+      str= str + "\"FirstName\": \"" + req.query.FirstName + "\"";
+    
+    if(req.query.LastName != null)
+    {
+      if(str.length > 1)
+        str = str +",";
+      str= str + "\"LastName\": \"" + req.query.LastName + "\"";
+    }
+
+    if(req.query.Title != null)
+    {
+      if(str.length > 1)
+        str = str +",";
+      str= str + "\"Title\": \"" + req.query.Title + "\"";
+    }
+
+    str = str + "}";
+  
+    console.log(req.query.FirstName);
+    usercol.find(JSON.parse(str), {HourlyRate: {$gte: parseFloat(req.query.MinHourlyRate), $lte: parseFloat(req.query.MaxHourlyRate)}}
+                  , {Skills: {$all: [req.query.Skills]}}).toArray(function(err, result) {
+      if (err) throw err;
+      res.status(200).send(result);
+      console.log(result);
+    });
+
 })
 
 /*Gets an array of users from the database by FirstName. 
@@ -76,6 +109,7 @@ app.get('/api/getUsersByFirstName', (req, res) => {
 /*Gets an array of users from the database by LastName. 
 Requires LastName to be passed as a parameter */
 app.get('/api/getUsersByLastName', (req, res) => {
+
     console.log(req.query.LastName);
     usercol.find({LastName: req.query.LastName}).toArray(function(err, result) {
       if (err) throw err;
@@ -176,6 +210,25 @@ app.post('/api/updateFirstName', (req, res) => {
     console.log("First name updated");
 },
 res.status(200).send("First name updated to " + req.body.FirstName))
+})
+
+
+/*Updates the FirstName field of a user with the given user name. 
+Requires Username to be passed as a parameter and FirstName to be passed in body */
+app.post('/api/updateImage', (req, res) => {
+    usercol.updateOne({Username: req.query.Username}, {$set: {img: fs.readFileSync("C:\\Users\\Andy\\Desktop\\test.png")}}, function(err, res) {
+    if (err) throw err;
+    
+    console.log("img updated");
+},
+res.status(200).send("First name updated to " + req.body.FirstName))
+  console.log("here");
+  /*
+ var newItem = new Item();
+ newItem.img.data = fs.readFileSync("C:\Users\Andy\Desktop\test.png")
+ newItem.img.contentType = 'image/png';
+ newItem.save();
+ */
 })
 
 /*Updates the LastName field of a user with the given user name. 

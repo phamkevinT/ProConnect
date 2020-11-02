@@ -56,20 +56,28 @@ hr {
   margin: 100px auto 150px auto;
   text-align: left;
   width: 50%;
+  color: lightblue;
 }
 
-.team-img {
+.team-left-img {
   float: left;
   margin-right: 30px;
   width: 25%;
+  border-radius: 50%;
 }
 
-.team-img {
+.team-right-img {
   float: right;
   margin-left: 30px;
   width: 25%;
+  border-radius: 50%;
 }
 
+.theteam {
+  padding-top: 100px;
+  padding-bottom: 50px;
+  background-color: #195e83;
+}
 
 /* çontainers */
 
@@ -100,14 +108,14 @@ hr {
 .contactDetails
 {
   padding-bottom: 5%;
-  color: #fff;
+  color: black;
   font-size: 1.5rem;
 }
 
 .contact-btn
 {
   font-family: arial;
-  color: grey;
+  color: white;
   font-size: 20px;
   text-decoration: none;
   padding: 10px 25px;
@@ -115,7 +123,7 @@ hr {
   -webkit-border-radius: 8px;
   border-radius: 8px;
   font-family: 'Montserrat', sans-serif;
-  background: lightblue;
+  background:  #195e83;
 }
 
 .contact-btn:hover

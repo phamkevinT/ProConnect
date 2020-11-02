@@ -56,6 +56,11 @@ app.get("/register", function (req, res) {
 });
 
 // Profile Route
+app.get("/home", function (req, res) {
+  res.render("home");
+});
+
+// Profile Route
 app.get("/profile", function (req, res) {
   res.render("profile");
 });

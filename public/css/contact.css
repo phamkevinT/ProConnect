@@ -1,6 +1,5 @@
 body
 {
-  font-family: "Montserrat";
   text-align: center;
   margin: 0;
 }
@@ -39,6 +38,7 @@ hr {
   position: relative;
   padding-top: 100px;
   padding-bottom: 100px;
+  font-family: "Montserrat";
 }
 
 .middle-container {
@@ -96,6 +96,7 @@ hr {
 {
   background-color: lightblue;
   color: black;
+  font-family: "Montserrat";
 }
 
 .header

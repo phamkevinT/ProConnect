@@ -1,6 +1,5 @@
 body
 {
-  font-family: "Montserrat";
   text-align: center;
   margin: 0;
 }
@@ -24,10 +23,32 @@ h3 {
   font-family: 'Montserrat', sans-serif;
 }
 
+hr {
+  border-style: none; /* Make all sides of border not visible */
+  border-top-style: dotted; /* Change top-side solid border to dottede border */
+  border-color: grey; /* Color of the dots */
+  border-width: 5px; /* Size of the dots */
+  margin-top: 50px;
+  margin-bottom: 50px;
+  width: 5%; /* Size of the horiztonal rule (hr) based on percent of website */
+}
+
 .top-container {
-  background-color: #e1f2fb;
+  background-color: #195e83;
   position: relative;
   padding-top: 100px;
+  padding-bottom: 100px;
+  font-family: "Montserrat";
+}
+
+.middle-container {
+  padding-top: 100px;
+  background-color: lightblue;
+}
+
+.sjsu-tower-img {
+  width: 15%;
+  height: auto;
 }
 
 .team-row {
@@ -35,20 +56,28 @@ h3 {
   margin: 100px auto 150px auto;
   text-align: left;
   width: 50%;
+  color: lightblue;
 }
 
-.team-img {
+.team-left-img {
   float: left;
   margin-right: 30px;
   width: 25%;
+  border-radius: 50%;
 }
 
-.team-img {
+.team-right-img {
   float: right;
   margin-left: 30px;
   width: 25%;
+  border-radius: 50%;
 }
 
+.theteam {
+  padding-top: 100px;
+  padding-bottom: 50px;
+  background-color: #195e83;
+}
 
 /* çontainers */
 
@@ -67,6 +96,7 @@ h3 {
 {
   background-color: lightblue;
   color: black;
+  font-family: "Montserrat";
 }
 
 .header
@@ -79,14 +109,14 @@ h3 {
 .contactDetails
 {
   padding-bottom: 5%;
-  color: #fff;
+  color: black;
   font-size: 1.5rem;
 }
 
 .contact-btn
 {
   font-family: arial;
-  color: grey;
+  color: white;
   font-size: 20px;
   text-decoration: none;
   padding: 10px 25px;
@@ -94,7 +124,7 @@ h3 {
   -webkit-border-radius: 8px;
   border-radius: 8px;
   font-family: 'Montserrat', sans-serif;
-  background: lightblue;
+  background:  #195e83;
 }
 
 .contact-btn:hover

@@ -24,10 +24,31 @@ h3 {
   font-family: 'Montserrat', sans-serif;
 }
 
+hr {
+  border-style: none; /* Make all sides of border not visible */
+  border-top-style: dotted; /* Change top-side solid border to dottede border */
+  border-color: grey; /* Color of the dots */
+  border-width: 5px; /* Size of the dots */
+  margin-top: 50px;
+  margin-bottom: 50px;
+  width: 5%; /* Size of the horiztonal rule (hr) based on percent of website */
+}
+
 .top-container {
-  background-color: #e1f2fb;
+  background-color: #195e83;
   position: relative;
   padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+.middle-container {
+  padding-top: 100px;
+  background-color: lightblue;
+}
+
+.sjsu-tower-img {
+  width: 15%;
+  height: auto;
 }
 
 .team-row {

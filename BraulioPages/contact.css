@@ -1,0 +1,59 @@
+body
+{
+  font-family: "Montserrat";
+  text-align: center;
+  margin: 0;
+}
+
+/* çontainers */
+
+.container-fluid
+{
+  padding: 7% 15%;
+}
+
+.colored-section
+{
+  background-color: #195e83;
+  color: #fff;
+}
+
+.light-section
+{
+  background-color: lightblue;
+  color: black;
+}
+
+.header
+{
+  font-family: "Montserrat-Bold";
+  color: black;
+  font-size: 4rem;
+}
+
+.contactDetails
+{
+  padding-bottom: 5%;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.contact-btn
+{
+  font-family: arial;
+  color: grey;
+  font-size: 20px;
+  text-decoration: none;
+  padding: 10px 25px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  background: lightblue;
+}
+
+.contact-btn:hover
+{
+  color: black;
+  background: blue;
+}

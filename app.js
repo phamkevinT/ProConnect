@@ -4,7 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
-
+const axios = require("axios");
 // bcrypt password hash hunction
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -21,12 +21,6 @@ app.use(
     extended: false,
   })
 );
-
-// Conncting to local mongo database using database named userDB
-mongoose.connect("mongodb://localhost:27017/userDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
 
 // User Schema that takes an email and password
 const userSchema = new mongoose.Schema({
@@ -78,28 +72,30 @@ app.get("/contact", function (req, res) {
 // Capture from register post request when user submit the register form
 app.post("/register", function (req, res) {
 
+  console.log("got here")
+    
+
   // bcrypt hashes the password
   // saltRounds is the number of time the password is hashed
+
   bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
 
     // Creating the new user from user's input in register page
-    const newUser = new User({
-      fName: req.body.fName,
-      lName: req.body.lName,
-      email: req.body.username,
-      password: hash
-    });
 
-    // Save the user to the database
-    newUser.save(function (err) {
-      // Check for error and print it, else show home page
-      if (err) {
-        console.log(err);
-      } else {
-        // Render the homepage
-        res.render("home");
-      }
+    axios.post('http://localhost:4000/api/createUser', {
+      FirstName: req.body.fName,
+      LastName: req.body.lName,
+      Email: req.body.username,
+      Username: req.body.username,
+      Password: hash
+    })
+    .then((response) => {
+      console.log(response);
+      res.render("home");
+    }, (error) => {
+      console.log(error);
     });
+ 
   });
 });
 
@@ -111,26 +107,27 @@ app.post("/login", function (req, res) {
   const username = req.body.username;
   const password = req.body.password;
 
-  // See if user's inputted email matches any in the database
-  User.findOne({ email: username }, function (err, foundUser) {
-    if (err) {
-      console.log(err);
-    } else {
-      // If the user exists in the database, compare to see if the inputted password is matches password in the database
-      if (foundUser) {
-        // Compare the hashed passwords
-        bcrypt.compare(password, foundUser.password, function(err, result) {
-          // If true, log the user in and display the home page
-          if(result === true) {
-            res.render("home");
-          }
-          // Not true, redirect back to login page
-          else {
-            res.render("login");
-          }
-        });
-      }
+  axios.get('http://localhost:4000/api/getOneUserByUsername', {
+    params: {
+      Username: req.body.username
     }
+  })
+  .then((response) => {
+
+    bcrypt.compare(password, response.data.Password, function(err, result) {
+      // If true, log the user in and display the home page
+      if(result === true) {
+        res.render("home");
+      }
+      // Not true, redirect back to login page
+      else {
+        res.render("login");
+      }
+    });
+
+  }, (error) => {
+    res.render("login");
+    console.log("user not found");
   });
 });
 

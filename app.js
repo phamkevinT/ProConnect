@@ -1,5 +1,5 @@
 //jshint esversion:6
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -29,7 +29,6 @@ const userSchema = new mongoose.Schema({
   email: { type: String },
   password: { type: String },
 });
-
 
 // Creating the model using the schema
 const User = new mongoose.model("User", userSchema);
@@ -71,31 +70,31 @@ app.get("/contact", function (req, res) {
 
 // Capture from register post request when user submit the register form
 app.post("/register", function (req, res) {
-
-  console.log("got here")
-    
+  console.log("got here");
 
   // bcrypt hashes the password
   // saltRounds is the number of time the password is hashed
 
-  bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
-
+  bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
     // Creating the new user from user's input in register page
 
-    axios.post('http://localhost:4000/api/createUser', {
-      FirstName: req.body.fName,
-      LastName: req.body.lName,
-      Email: req.body.username,
-      Username: req.body.username,
-      Password: hash
-    })
-    .then((response) => {
-      console.log(response);
-      res.render("home");
-    }, (error) => {
-      console.log(error);
-    });
- 
+    axios
+      .post("http://localhost:4000/api/createUser", {
+        FirstName: req.body.fName,
+        LastName: req.body.lName,
+        Email: req.body.username,
+        Username: req.body.username,
+        Password: hash,
+      })
+      .then(
+        (response) => {
+          console.log(response);
+          res.render("home");
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   });
 });
 
@@ -107,28 +106,33 @@ app.post("/login", function (req, res) {
   const username = req.body.username;
   const password = req.body.password;
 
-  axios.get('http://localhost:4000/api/getOneUserByUsername', {
-    params: {
-      Username: req.body.username
-    }
-  })
-  .then((response) => {
-
-    bcrypt.compare(password, response.data.Password, function(err, result) {
-      // If true, log the user in and display the home page
-      if(result === true) {
-        res.render("home");
-      }
-      // Not true, redirect back to login page
-      else {
+  axios
+    .get("http://localhost:4000/api/getOneUserByUsername", {
+      params: {
+        Username: req.body.username,
+      },
+    })
+    .then(
+      (response) => {
+        bcrypt.compare(password, response.data.Password, function (
+          err,
+          result
+        ) {
+          // If true, log the user in and display the home page
+          if (result === true) {
+            res.render("home");
+          }
+          // Not true, redirect back to login page
+          else {
+            res.render("login");
+          }
+        });
+      },
+      (error) => {
         res.render("login");
+        console.log("user not found");
       }
-    });
-
-  }, (error) => {
-    res.render("login");
-    console.log("user not found");
-  });
+    );
 });
 
 // Check to see if server is running

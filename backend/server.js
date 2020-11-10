@@ -203,7 +203,9 @@ app.post('/api/createUser', (req, res) => {
 /*Updates the FirstName field of a user with the given user name. 
 Requires Username to be passed as a parameter and FirstName to be passed in body */
 app.post('/api/updateFirstName', (req, res) => {
-  
+  console.log("username: " + req.query.Username);
+  console.log("first name: " + req.body.FirstName);
+
   usercol.updateOne({Username: req.query.Username}, {$set: {FirstName: req.body.FirstName}}, function(err, res) {
     if (err) throw err;
     
@@ -213,22 +215,16 @@ res.status(200).send("First name updated to " + req.body.FirstName))
 })
 
 
-/*Updates the FirstName field of a user with the given user name. 
-Requires Username to be passed as a parameter and FirstName to be passed in body */
+/*Updates the img field of a user with the given username. 
+Requires Username to be passed as a parameter and the image to be passed in body as binary data*/
 app.post('/api/updateImage', (req, res) => {
-    usercol.updateOne({Username: req.query.Username}, {$set: {img: fs.readFileSync("C:\\Users\\Andy\\Desktop\\test.png")}}, function(err, res) {
-    if (err) throw err;
-    
-    console.log("img updated");
+  usercol.updateOne({Username: req.query.Username}, {$set: {img: req.body.imgData}}, function(err, res) {
+
+  if (err) throw err;
+
+  console.log("img updated");
 },
-res.status(200).send("First name updated to " + req.body.FirstName))
-  console.log("here");
-  /*
- var newItem = new Item();
- newItem.img.data = fs.readFileSync("C:\Users\Andy\Desktop\test.png")
- newItem.img.contentType = 'image/png';
- newItem.save();
- */
+res.status(200).send("image updated"))
 })
 
 /*Updates the LastName field of a user with the given user name. 

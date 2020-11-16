@@ -1,0 +1,134 @@
+body
+{
+  text-align: center;
+  margin: 0;
+}
+
+h1 {
+  color: #66BFBF;
+  font-family: 'Sacramento', cursive;
+  font-size: 5.625rem;  /* Use percentage or rem so the font scales on browser. 100% = 1rem = 16px */
+  margin: 50px auto 0 auto;
+}
+
+h2 {
+  color: #66BFBF;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.5rem;
+  font-weight: normal;
+}
+
+h3 {
+  color: #11999E;
+  font-family: 'Montserrat', sans-serif;
+}
+
+hr {
+  border-style: none; /* Make all sides of border not visible */
+  border-top-style: dotted; /* Change top-side solid border to dottede border */
+  border-color: grey; /* Color of the dots */
+  border-width: 5px; /* Size of the dots */
+  margin-top: 50px;
+  margin-bottom: 50px;
+  width: 5%; /* Size of the horiztonal rule (hr) based on percent of website */
+}
+
+.top-container {
+  background-color: #195e83;
+  position: relative;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  font-family: "Montserrat";
+}
+
+.middle-container {
+  padding-top: 100px;
+  background-color: lightblue;
+}
+
+.sjsu-tower-img {
+  width: 15%;
+  height: auto;
+}
+
+.team-row {
+  line-height: 2;
+  margin: 100px auto 150px auto;
+  text-align: left;
+  width: 50%;
+  color: lightblue;
+}
+
+.team-left-img {
+  float: left;
+  margin-right: 30px;
+  width: 25%;
+  border-radius: 50%;
+}
+
+.team-right-img {
+  float: right;
+  margin-left: 30px;
+  width: 25%;
+  border-radius: 50%;
+}
+
+.theteam {
+  padding-top: 100px;
+  padding-bottom: 50px;
+  background-color: #195e83;
+}
+
+/* çontainers */
+
+.container-fluid
+{
+  padding: 7% 15%;
+}
+
+.colored-section
+{
+  background-color: #195e83;
+  color: #fff;
+}
+
+.light-section
+{
+  background-color: lightblue;
+  color: black;
+  font-family: "Montserrat";
+}
+
+.header
+{
+  font-family: "Montserrat-Bold";
+  color: black;
+  font-size: 4rem;
+}
+
+.contactDetails
+{
+  padding-bottom: 5%;
+  color: black;
+  font-size: 1.5rem;
+}
+
+.contact-btn
+{
+  font-family: arial;
+  color: white;
+  font-size: 20px;
+  text-decoration: none;
+  padding: 10px 25px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  background:  #195e83;
+}
+
+.contact-btn:hover
+{
+  color: black;
+  background: blue;
+}

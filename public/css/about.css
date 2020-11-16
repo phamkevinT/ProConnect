@@ -5,20 +5,6 @@ body
   margin: 0;
 }
 
-h1, h2, h3, h4, h5, h6
-{
-  font-family: "Montserrat-Bold";
-  color: #fff;
-  font-size: 4rem;
-}
-
-p
-{
-  color: #fff;
-  font-size: 1.5rem;
-}
-
-
 /* çontainers */
 
 .container-fluid
@@ -37,31 +23,26 @@ p
  .light-section
  {
    background-color: lightblue;
+   color: black;
  }
 
 /* About Page */
 
-.contactDetails
+.header
 {
-  padding-bottom: 5%;
+  font-family: "Montserrat-Bold";
+  color: black;
+  font-size: 4rem;
 }
 
-.contact-btn
-{
-  font-family: arial;
-  color: grey;
-  font-size: 20px;
-  text-decoration: none;
-  padding: 10px 25px;
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  border-radius: 8px;
-  font-family: 'Montserrat', sans-serif;
-  background: lightblue;
-}
-
-.contact-btn:hover
+.black
 {
   color: black;
-  background: blue;
+  font-size: 1.5rem;
+}
+
+.white
+{
+  color: #fff;
+  font-size: 1.5rem;
 }

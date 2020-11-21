@@ -58,12 +58,12 @@ app.get("/profile", function (req, res) {
   res.render("profile");
 });
 
-// About Route 
+// About Route
 app.get("/about", function (req, res) {
   res.render("about");
 });
 
-// Contact Route 
+// Contact Route
 app.get("/contact", function (req, res) {
   res.render("contact");
 });
@@ -119,19 +119,20 @@ app.post("/login", function (req, res) {
     })
     .then(
       (response) => {
-        bcrypt.compare(password, response.data.Password, function (
-          err,
-          result
-        ) {
-          // If true, log the user in and display the home page
-          if (result === true) {
-            res.render("home");
+        bcrypt.compare(
+          password,
+          response.data.Password,
+          function (err, result) {
+            // If true, log the user in and display the home page
+            if (result === true) {
+              res.render("home");
+            }
+            // Not true, redirect back to login page
+            else {
+              res.render("login");
+            }
           }
-          // Not true, redirect back to login page
-          else {
-            res.render("login");
-          }
-        });
+        );
       },
       (error) => {
         res.render("login");

@@ -58,14 +58,19 @@ app.get("/profile", function (req, res) {
   res.render("profile");
 });
 
-// About Route (PAGE NOT IMPLEMENTED YET)
+// About Route 
 app.get("/about", function (req, res) {
   res.render("about");
 });
 
-// Contact Route (PAGE NOT IMPLEMENTED YET)
+// Contact Route 
 app.get("/contact", function (req, res) {
   res.render("contact");
+});
+
+// Forgot Password Route
+app.get("/forgotPassword", function (req, res) {
+  res.render("forgotPassword");
 });
 
 // Capture from register post request when user submit the register form

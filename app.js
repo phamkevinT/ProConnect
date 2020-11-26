@@ -58,14 +58,19 @@ app.get("/profile", function (req, res) {
   res.render("profile");
 });
 
-// About Route (PAGE NOT IMPLEMENTED YET)
+// About Route
 app.get("/about", function (req, res) {
   res.render("about");
 });
 
-// Contact Route (PAGE NOT IMPLEMENTED YET)
+// Contact Route
 app.get("/contact", function (req, res) {
   res.render("contact");
+});
+
+// Forgot Password Route
+app.get("/forgotPassword", function (req, res) {
+  res.render("forgotPassword");
 });
 
 // Capture from register post request when user submit the register form
@@ -114,19 +119,20 @@ app.post("/login", function (req, res) {
     })
     .then(
       (response) => {
-        bcrypt.compare(password, response.data.Password, function (
-          err,
-          result
-        ) {
-          // If true, log the user in and display the home page
-          if (result === true) {
-            res.render("home");
+        bcrypt.compare(
+          password,
+          response.data.Password,
+          function (err, result) {
+            // If true, log the user in and display the home page
+            if (result === true) {
+              res.render("home");
+            }
+            // Not true, redirect back to login page
+            else {
+              res.render("login");
+            }
           }
-          // Not true, redirect back to login page
-          else {
-            res.render("login");
-          }
-        });
+        );
       },
       (error) => {
         res.render("login");

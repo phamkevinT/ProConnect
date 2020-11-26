@@ -21,6 +21,23 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
     </script>
+    <style>
+
+        /* The popup form - hidden by default */
+        .form-popup {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            right: 15px;
+            border: 3px solid #f1f1f1;
+            z-index: 9;
+            background-color: bisque;
+            height: 300px;
+            padding: 30px 30px;
+        }
+
+   
+    </style>
 </head>
 
 <body>
@@ -43,14 +60,11 @@
                         <a class="nav-link" href="/profile">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/services">Services</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="/contact">Contact</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/">Logout</a>
-                      </li>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -81,12 +95,18 @@
                         <div class="col-md-6">
                             <div class="profile-head">
                                 <h5>
-                                    FirstName LastName
+                                    John Doe
                                 </h5>
                                 <h6>
-                                    Profession and Title
+                                    Software Engineer, San Jose State University Undergraduate
                                 </h6>
-                                <p class="proile-description"><span>This is a sample description of me.</span></p>
+                                <p class="proile-description"><span>
+                                        Hello! My name is John and I am currently working towards a Bachelor's Degree in
+                                        Software Engineering.
+                                        My hobbies include hiking and traveling around the world.
+                                        Feel free to reach out to me!
+
+                                    </span></p>
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home"
@@ -102,8 +122,37 @@
 
                         <!-- Edit Profile Button -->
                         <div class="col-md-2">
-                            <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile" />
+                            <input onClick="openForm()" type="submit" class="open-button" name="btnAddMore"
+                                value="Edit Profile" />
                         </div>
+
+                        <div class="form-popup" id="myForm">
+                            <form action="/profile" class="form-container">
+                                <h1 style="text-align: center;">Edit Profile</h1>
+
+                                <label><b>First Name</b></label>
+                                <input type="text" placeholder="First Name " name="fname" required>
+                                <br>
+                                <label><b>Last Name</b></label>
+                                <input type="text" placeholder="Last Name " name="lname" required>
+                                <br>
+                                <label><b>Description</b></label>
+                                <input type="text" placeholder="Profile Description" name="pdesc" required>
+                                <br>
+                                <button type="submit" class="btn">Update</button>
+                                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                            </form>
+                        </div>
+
+                        <script>
+                            function openForm() {
+                                document.getElementById("myForm").style.display = "block";
+                            }
+
+                            function closeForm() {
+                                document.getElementById("myForm").style.display = "none";
+                            }
+                        </script>
                     </div>
 
                     <!-- Bottom Portion of Profile Info -->
@@ -135,7 +184,7 @@
                                             <label>Name</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <p>My Name</p>
+                                            <p>John Doe</p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -143,7 +192,7 @@
                                             <label>Email</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <p>myEmail@email.com</p>
+                                            <p>john.doe@email.com</p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -179,15 +228,7 @@
                                             <label>Experience</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <p>Expert</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Hourly Rate</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>10$/hr</p>
+                                            <p>Entry Level</p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -195,7 +236,7 @@
                                             <label>Total Projects</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <p>230</p>
+                                            <p>23</p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -211,13 +252,7 @@
                                             <label>Availability</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <p>6 months</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <label>Your Bio</label><br />
-                                            <p>Your detail description</p>
+                                            <p>Email Me</p>
                                         </div>
                                     </div>
                                 </div>

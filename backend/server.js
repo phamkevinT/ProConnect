@@ -20,6 +20,8 @@ const { stringify } = require('querystring');
 app.use(cors());
 app.use(express.json());
 
+let pyProcess = undefined;
+
 app.listen(port, () => {
     const uri = "mongodb+srv://user:OkfGMkxHXu1FouKu@cluster0.jtm8k.mongodb.net/proconnect?retryWrites=true&w=majority";
 
@@ -31,19 +33,19 @@ mongoose.connect(uri, {
   var db = mongoose.connection
   console.log("MongoDB Connected…")
   usercol = db.collection("users");
-
-  function runSearcEngineScript() {
-    return spawn('python', [
-      "-u",
-      path.join(__dirname, "search_engine.py"),
-      uri
-    ]);
-  }
-
 })
 .catch(err => console.log(err))
     console.log('server is running')
     pcRoutes.route('/get');
+
+  pyProcess = spawn('python', [
+      "-u",
+      path.join(__dirname, "./search_engine.py"),
+      uri
+    ]);
+
+  pyProcess.stdin.setEncoding('utf8');
+
 })
 
 app.post('/users', function (req, res) {
@@ -73,7 +75,7 @@ app.get('/api/getOneUserByUsername', (req, res) => {
 
 })
 
-/*comphrensiveSearch covers all search functionality. Will perform a search based on whatever is passed in the parameters 
+/*comphrensiveSearch covers all search functionality. Will perform a search based on whatever is passed in the parameters
 (FirstName,LastName, Title, maxHourlyRate, minHourlyRate and skills)*/
 app.get('/api/comphrensiveSearch', (req, res) => {
 
@@ -81,7 +83,7 @@ app.get('/api/comphrensiveSearch', (req, res) => {
     console.log("length: " + str.length)
     if(req.query.FirstName != null)
       str= str + "\"FirstName\": \"" + req.query.FirstName + "\"";
-    
+
     if(req.query.LastName != null)
     {
       if(str.length > 1)
@@ -97,7 +99,7 @@ app.get('/api/comphrensiveSearch', (req, res) => {
     }
 
     str = str + "}";
-  
+
     console.log(req.query.FirstName);
     usercol.find(JSON.parse(str), {HourlyRate: {$gte: parseFloat(req.query.MinHourlyRate), $lte: parseFloat(req.query.MaxHourlyRate)}}
                   , {Skills: {$all: [req.query.Skills]}}).toArray(function(err, result) {
@@ -230,7 +232,7 @@ res.status(200).send("First name updated to " + req.body.FirstName))
 /*Updates the LastName field of a user with the given user name.
 
 
-/*Updates the img field of a user with the given username. 
+/*Updates the img field of a user with the given username.
 Requires Username to be passed as a parameter and the image to be passed in body as binary data*/
 app.post('/api/updateImage', (req, res) => {
   usercol.updateOne({Username: req.query.Username}, {$set: {img: req.body.imgData}}, function(err, res) {
@@ -242,7 +244,7 @@ app.post('/api/updateImage', (req, res) => {
 res.status(200).send("image updated"))
 })
 
-/*Updates the LastName field of a user with the given user name. 
+/*Updates the LastName field of a user with the given user name.
 Requires Username to be passed as a parameter and LastName to be passed in body */
 app.post('/api/updateLastName', (req, res) => {
 
@@ -520,7 +522,7 @@ app.post('/api/updateUsername', (req, res) => {
 res.status(200).send("Username updated to " + req.body.Username))
 })
 
-/*Updates the Username field of a user with the given user name.
+/*Updates the Password field of a user with the given user name.
 Requires the  Username to be passed as a parameter and the new password to be passed in body */
 app.post('/api/updatePassword', (req, res) => {
 

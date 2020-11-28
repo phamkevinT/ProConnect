@@ -1,16 +1,16 @@
 import sys, getopt, time
 
-from Elasticsearch import elasticsearch
+from elasticsearch import Elasticsearch
 from pymongo import MongoClient, uri_parser
 from pymongo.errors import ConnectionFailure
 
-def mongo_search(mongo_search_function):
-    pass
+def search(es_object, index_name, search):
+    result = es_object.search(index=index_name, body=search)
 
 def main(argv):
 
-    es = ElasticSearch()
-    uri = argv[2]
+    es = Elasticsearch()
+    uri = argv[1]
 
     try:
         client = MongoClient(uri)

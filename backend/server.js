@@ -3,7 +3,6 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const pcRoutes = express.Router();
 
-const {spawn} = require('child_process')
 const path = require('path')
 
 var fs = require("fs");
@@ -20,8 +19,6 @@ const { stringify } = require('querystring');
 app.use(cors());
 app.use(express.json());
 
-let pyProcess = undefined;
-
 app.listen(port, () => {
     const uri = "mongodb+srv://user:OkfGMkxHXu1FouKu@cluster0.jtm8k.mongodb.net/proconnect?retryWrites=true&w=majority";
 
@@ -37,14 +34,6 @@ mongoose.connect(uri, {
 .catch(err => console.log(err))
     console.log('server is running')
     pcRoutes.route('/get');
-
-  pyProcess = spawn('python', [
-      "-u",
-      path.join(__dirname, "./search_engine.py"),
-      uri
-    ]);
-
-  pyProcess.stdin.setEncoding('utf8');
 
 })
 

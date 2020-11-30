@@ -3,8 +3,6 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const pcRoutes = express.Router();
 
-const path = require('path')
-
 var fs = require("fs");
 
 const app = express();

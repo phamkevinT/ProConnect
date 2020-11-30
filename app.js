@@ -9,8 +9,10 @@ const axios = require("axios");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
-//to run non-JS files
+//to run Python file for search engine and dealing with it
 const {spawn} = require('child_process')
+const path = require('path')
+var sys = require('util')
 
 const Schema = mongoose.Schema;
 
@@ -29,7 +31,6 @@ app.use(
 let pyProcess = spawn('python', [
     "-u",
     path.join(__dirname, "./search_engine.py"),
-    "mongodb+srv://user:OkfGMkxHXu1FouKu@cluster0.jtm8k.mongodb.net/proconnect?retryWrites=true&w=majority"
   ]);
 
 pyProcess.stdin.setEncoding('utf8');
@@ -153,31 +154,37 @@ app.post("/login", function (req, res) {
     );
 });
 
-app.post("/results", function (req, res) => {
+app.post("/results", function (req, res) {
 
   const result = req.body.searchQuery;
-  console.log(`Searching for ${result}`); 
+  console.log(`Searching for ${result}`);
+
+  pyProcess.stdout.on('data', function(data) {
+
+  });
 
   axios
     .get("http://localhost:4000/api/comphrensiveSearch", {
         params: {
-          searchQuery: req.body.searchQuery,
+          searchQuery: req.body.searchQuery
         },
     })
     .then(
       (response) => {
-        function (err, result) {
-          if (result === true) {
-            res.render("results");
-          }
-          else {
-            res.render("noResults");
-          }
+        console.log(response)
+        if (response !== undefined) {
+          //write data to HTML page named "results"
+          res.render("results");
+        }
+        else {
+          //otherwise, return "noResults.html"
+          res.render("no-results");
+         console.log("Query did not produce any results");
         }
       },
       (error) => {
-        res.render("noResults");
-        console.log("Query did not produce any results");
+        res.render("no-results");
+        console.log(error);
       }
     );
 });

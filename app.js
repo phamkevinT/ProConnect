@@ -9,6 +9,11 @@ const axios = require("axios");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
+//to run Python file for search engine and dealing with it
+const {spawn} = require('child_process')
+const path = require('path')
+var sys = require('util')
+
 const Schema = mongoose.Schema;
 
 const app = express();
@@ -21,6 +26,14 @@ app.use(
     extended: false,
   })
 );
+
+//run Python script containing the search engine
+let pyProcess = spawn('python', [
+    "-u",
+    path.join(__dirname, "./search_engine.py"),
+  ]);
+
+pyProcess.stdin.setEncoding('utf8');
 
 // User Schema that takes an email and password
 const userSchema = new mongoose.Schema({
@@ -137,6 +150,41 @@ app.post("/login", function (req, res) {
       (error) => {
         res.render("login");
         console.log("user not found");
+      }
+    );
+});
+
+app.post("/results", function (req, res) {
+
+  const result = req.body.searchQuery;
+  console.log(`Searching for ${result}`);
+
+  pyProcess.stdout.on('data', function(data) {
+
+  });
+
+  axios
+    .get("http://localhost:4000/api/comphrensiveSearch", {
+        params: {
+          searchQuery: req.body.searchQuery
+        },
+    })
+    .then(
+      (response) => {
+        console.log(response)
+        if (response !== undefined) {
+          //write data to HTML page named "results"
+          res.render("results");
+        }
+        else {
+          //otherwise, return "noResults.html"
+          res.render("no-results");
+         console.log("Query did not produce any results");
+        }
+      },
+      (error) => {
+        res.render("no-results");
+        console.log(error);
       }
     );
 });

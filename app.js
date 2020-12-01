@@ -6,7 +6,7 @@ const ejs = require("ejs");
 const mongoose = require("mongoose");
 const axios = require("axios");
 // bcrypt password hash hunction
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const saltRounds = 10;
 
 //to run Python file for search engine and dealing with it
@@ -101,7 +101,6 @@ app.post("/register", function (req, res) {
         FirstName: req.body.fName,
         LastName: req.body.lName,
         Email: req.body.username,
-        Username: req.body.username,
         Password: hash,
       })
       .then(
@@ -125,9 +124,9 @@ app.post("/login", function (req, res) {
   const password = req.body.password;
 
   axios
-    .get("http://localhost:4000/api/getOneUserByUsername", {
+    .get("http://localhost:4000/api/getOneUserByEmail", {
       params: {
-        Username: req.body.username,
+        Email: req.body.username,
       },
     })
     .then(
@@ -190,6 +189,6 @@ app.post("/results", function (req, res) {
 });
 
 // Check to see if server is running
-app.listen(3000, function () {
-  console.log("Server started on port 3000.");
+app.listen(8081, function () {
+  console.log("Server started on port 8081.");
 });

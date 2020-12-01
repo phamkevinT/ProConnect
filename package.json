@@ -1,9 +1,10 @@
 {
-  "name": "ProConnect",
+  "name": "proconnect",
   "version": "1.0.0",
   "description": "ProConnect is a web-based application that matches its users with companies together based on user listed traits (e.g., experience, languages education, work style...). ProConnect allows users to customize their individual profile to better showcase personal projects and resumes.",
   "main": "app.js",
   "scripts": {
+    "start": "concurrently \"node app.js\" \"node backend/server.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,9 +22,11 @@
     "@types/ejs": "^3.0.5",
     "@types/express": "^4.17.8",
     "@types/mongoose": "^5.7.36",
+    "aws-sdk": "latest",
     "axios": "^0.21.0",
-    "bcrypt": "^5.0.0",
+    "bcryptjs": "latest",
     "body-parser": "^1.19.0",
+    "concurrently": "^5.3.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",

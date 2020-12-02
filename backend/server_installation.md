@@ -16,5 +16,5 @@ To install MongoDB to get a functional server up, you must do the following:
 ## Search Engine
 * Install Elasticsearch 7.10.0 if you haven't already. 
 * Install the following Python packages using the command `pip install`:
- * `pymongo`
- * `elasticsearch`
+  * `pymongo`
+  * `elasticsearch`

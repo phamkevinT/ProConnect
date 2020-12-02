@@ -9,6 +9,13 @@ const axios = require("axios");
 const bcrypt = require("bcryptjs");
 const saltRounds = 10;
 
+var cookieParser = require('cookie-parser');
+
+
+const session = require('express-session')
+
+
+
 const Schema = mongoose.Schema;
 
 const app = express();
@@ -25,7 +32,10 @@ app.use(
     extended: false,
   })
 );
-app.locals.pressed = 0;
+app.use(session({
+  'secret': '343ji43j4n3jn4jk3n'
+}))
+
 // User Schema that takes an email and password
 const userSchema = new mongoose.Schema({
   fName: { type: String },
@@ -39,27 +49,33 @@ const User = new mongoose.model("User", userSchema);
 
 // Home Route
 app.get("/", function (req, res) {
+  res.locals = req.session;
   res.render("index");
 });
 
 // Login Route
 app.get("/login", function (req, res) {
+  res.locals = req.session;
   res.render("login");
 });
 
 // Register Route
 app.get("/register", function (req, res) {
+  res.locals = req.session;
   res.render("register");
 });
 
 // Profile Route
 app.get("/home", function (req, res) {
+  res.locals = req.session;
+
   res.render("home");
 });
 
 // Profile Route
 app.get("/profile", function (req, res) {
-
+  console.log(req.session.name)
+  /*
               app.locals.EditFirstName =   app.locals.FirstName
               app.locals.EditLastName = app.locals.LastName
               app.locals.EditDescription = app.locals.Description;
@@ -84,6 +100,36 @@ app.get("/profile", function (req, res) {
               
               app.locals.EditLinkarr = app.locals.Linkarr;
               app.locals.EditSkillarr = app.locals.Skillarr;
+              */
+
+             req.session.EditFirstName =   req.session.FirstName
+             req.session.EditLastName = req.session.LastName
+             req.session.EditDescription = req.session.Description;
+             req.session.EditEmail = req.session.Email;
+             req.session.EditPhoneNumber = req.session.PhoneNumber;
+             req.session.EditResume = req.session.Resume;
+             req.session.EditTitle = req.session.Title;
+             req.session.EditLinks = req.session.Links;
+             req.session.EditSkills = req.session.Skills;
+             req.session.EditExperience = req.session.Experience;
+             req.session.EditHourlyRate = req.session.HourlyRate;
+             req.session.EditTotalProjects = req.session.TotalProjects;
+             req.session.EditEnglishLevel = req.session.EnglishLevel;
+             req.session.EditAvailability = req.session.Availability;
+             req.session.EditBio = req.session.Bio;
+             req.session.EditDetailedDescription = req.session.DetailedDescription;
+             req.session.EditImage = req.session.Image;
+
+             req.session.Editnumskills = req.session.numskills;
+             
+             req.session.Editnumlinks = req.session.numlinks;
+             
+             req.session.EditLinkarr = req.session.Linkarr;
+             req.session.EditSkillarr = req.session.Skillarr;
+
+             res.locals = req.session;
+
+  
 
               
   res.render("profile");
@@ -92,28 +138,32 @@ app.get("/profile", function (req, res) {
 app.get("/editProfile", function (req, res) {
 
 
-
+  res.locals = req.session;
   res.render("editProfile");
 });
 
 
 // About Route
 app.get("/about", function (req, res) {
+  res.locals = req.session;
   res.render("about");
 });
 
 // Contact Route
 app.get("/contact", function (req, res) {
+  res.locals = req.session;
   res.render("contact");
 });
 
 // Forgot Password Route
 app.get("/forgotPassword", function (req, res) {
+  res.locals = req.session;
   res.render("forgotPassword");
 });
 
 // Capture from register post request when user submit the register form
 app.post("/register", function (req, res) {
+  res.locals = req.session;
   console.log("got here");
 
   // bcrypt hashes the password
@@ -133,28 +183,31 @@ app.post("/register", function (req, res) {
         (response) => {
           
           console.log(response);
-          app.locals.FirstName =  req.body.fName;
-              app.locals.LastName = req.body.lName;
-              app.locals.Description = "Write your short description here";
-              app.locals.Email = req.body.username;
-              app.locals.PhoneNumber = "";
-              app.locals.Resume = "";
-              app.locals.Title = "";
-              app.locals.Links = [];
-              app.locals.Skills = [];
-              app.locals.Experience = "";
-              app.locals.HourlyRate = "";
-              app.locals.TotalProjects = "";
-              app.locals.EnglishLevel = "";
-              app.locals.Availability = "";
-              app.locals.Bio = "";
-              app.locals.DetailedDescription = "Write your detailed description here";
-              app.locals.Image = "";
+          
+              req.session.FirstName =  req.body.fName;
+              req.session.LastName = req.body.lName;
+              req.session.Description = "Write your short description here";
+              req.session.Email = req.body.username;
+              req.session.PhoneNumber = "";
+              req.session.Resume = "";
+              req.session.Title = "";
+              req.session.Links = [];
+              req.session.Skills = [];
+              req.session.Experience = "";
+              req.session.HourlyRate = "";
+              req.session.TotalProjects = "";
+              req.session.EnglishLevel = "";
+              req.session.Availability = "";
+              req.session.Bio = "";
+              req.session.DetailedDescription = "Write your detailed description here";
+              req.session.Image = "";
 
-              app.locals.Linkarr = [["Add a Link here", "URL goes here"]];
-              app.locals.Skillarr = ["Add A skill here"];
-              app.locals.numlinks = 1;
-              app.locals.numskills = 1;
+              req.session.Linkarr = [["Add a Link here", "URL goes here"]];
+              req.session.Skillarr = ["Add A skill here"];
+              req.session.numlinks = 1;
+              req.session.numskills = 1;
+          
+          res.locals = req.session;
 
           res.render("home");
         },
@@ -179,7 +232,7 @@ app.post("/editProfile", function (req, res) {
     var imageInput = req.body.uploadimage;
     var rawImage = imageInput.split(",");
 
-    app.locals.EditImage = rawImage[1];
+    req.session.EditImage = rawImage[1];
   }
 
 
@@ -187,15 +240,15 @@ app.post("/editProfile", function (req, res) {
   if(req.body.addskill == "no" && req.body.removeskill == "no" && req.body.addlink == "no" && req.body.removelink == "no" && req.body.uploadimage == "no")
   {
 
-    if(app.locals.Image != app.locals.EditImage)
+    if(req.session.Image != req.session.EditImage)
     {
       axios
       .post("http://localhost:4000/api/updateImage", {
-        Email: app.locals.Email,
-        imgData: app.locals.EditImage
+        Email: req.session.Email,
+        imgData: req.session.EditImage
       })
 
-      app.locals.Image = app.locals.EditImage;
+      req.session.Image = req.session.EditImage;
     }
 
       axios
@@ -212,20 +265,20 @@ app.post("/editProfile", function (req, res) {
         Availability: req.body.availability,
         DetailedDescription: req.body.DetailedDescriptionText,
 
-        Email: app.locals.Email
+        Email: req.session.Email
       })
       var i = 0;
 
-      for(; i < app.locals.Editnumskills; i++)
+      for(; i < req.session.Editnumskills; i++)
       {
         var skill = eval("req.body.skill" + i); //really would like to change this, but unsure of better alternative right now. skills must be capped to prevent incursions to database
-        if(i < app.locals.Skills.length)
+        if(i < req.session.Skills.length)
         {
           axios
           .post("http://localhost:4000/api/updateSkill", {
 
-            Email: app.locals.Email,
-            OriginalSkill: app.locals.Skills[i],
+            Email: req.session.Email,
+            OriginalSkill: req.session.Skills[i],
             NewSkill: skill 
           })
         }
@@ -234,47 +287,47 @@ app.post("/editProfile", function (req, res) {
           axios
           .post("http://localhost:4000/api/AppendSkills", {
 
-            Email: app.locals.Email,
+            Email: req.session.Email,
             NewSkill: skill 
           })
         }
-        app.locals.EditSkillarr[i] = skill;
-        app.locals.Skillarr[i] = skill;
-        app.locals.Skills[i] = skill;
+        req.session.EditSkillarr[i] = skill;
+        req.session.Skillarr[i] = skill;
+        req.session.Skills[i] = skill;
       
       }
-      if(i < app.locals.Skills.length)
+      if(i < req.session.Skills.length)
       {
-        for(; i <app.locals.Skills.length; i++)
+        for(; i <req.session.Skills.length; i++)
         {
-          console.log("deleted skill: " + app.locals.Skills[i] )
+          console.log("deleted skill: " + req.session.Skills[i] )
           axios
           .post("http://localhost:4000/api/DeleteSkill", {
 
-            Email: app.locals.Email,
-            RemoveSkill: app.locals.Skills[i] 
+            Email: req.session.Email,
+            RemoveSkill: req.session.Skills[i] 
           })
 
-          app.locals.Skills[i] = "";
+          req.session.Skills[i] = "";
         }
       }
 
       //linkupdates
       var i = 0;
 
-      for(; i < app.locals.Editnumlinks; i++)
+      for(; i < req.session.Editnumlinks; i++)
       {
         var str1 = eval("req.body.linkname" + i);
         var str2 = eval("req.body.linkurl" + i)
         var link = str1.concat("|", str2); //really would like to change this, but unsure of better alternative right now. skills must be capped to prevent incursions to database
         console.log("link: " + link);
-        if(i < app.locals.Links.length)
+        if(i < req.session.Links.length)
         {
           axios
           .post("http://localhost:4000/api/updateLinks", {
 
-            Email: app.locals.Email,
-            OriginalLink: app.locals.Links[i],
+            Email: req.session.Email,
+            OriginalLink: req.session.Links[i],
             NewLink: link 
           })
         }
@@ -283,102 +336,118 @@ app.post("/editProfile", function (req, res) {
           axios
           .post("http://localhost:4000/api/AppendLinks", {
 
-            Email: app.locals.Email,
+            Email: req.session.Email,
             NewLink: link 
           })
         }
 
-        app.locals.Linkarr[i][0] = str1;
-        app.locals.Linkarr[i][1] = str2;
+        console.log("I: " + i)
+        console.log(req.session.Linkarr.length);
+        if(i < req.session.Linkarr.length)
+        {
+          req.session.Linkarr[i][0] = str1;
+          req.session.Linkarr[i][1] = str2;
+        }
+        else
+        {
+          req.session.Linkarr.push([str1,str2]);
+
+        }
       
       }
-      if(i < app.locals.Links.length)
+      if(i < req.session.Links.length)
       {
-        for(; i <app.locals.Links.length; i++)
+        for(; i <req.session.Links.length; i++)
         {
-          console.log("deleted skill: " + app.locals.Links[i] )
+          console.log("deleted skill: " + req.session.Links[i] )
           axios
           .post("http://localhost:4000/api/DeleteLink", {
 
-            Email: app.locals.Email,
-            RemoveLink: app.locals.Links[i]
+            Email: req.session.Email,
+            RemoveLink: req.session.Links[i]
           })
 
-          app.locals.Links[i] = "";
+          req.session.Links[i] = "";
         }
       }
 
-      app.locals.FirstName = req.body.fname;
-      app.locals.LastName = req.body.lname;
-      app.locals.Description = req.body.Description;
-      app.locals.Email;
-      app.locals.PhoneNumber = req.body.phonenumber;
-      app.locals.Resume = req.body.resume;
-      app.locals.Title = req.body.title;
-      app.locals.Experience = req.body.experience;
-      app.locals.TotalProjects = req.body.totalprojects;
-      app.locals.EnglishLevel = req.body.englishlevel;
-      app.locals.Availability = req.body.availability;
-      app.locals.DetailedDescription = req.body.DetailedDescriptionText;
+      req.session.FirstName = req.body.fname;
+      req.session.LastName = req.body.lname;
+      req.session.Description = req.body.Description;
+      req.session.Email;
+      req.session.PhoneNumber = req.body.phonenumber;
+      req.session.Resume = req.body.resume;
+      req.session.Title = req.body.title;
+      req.session.Experience = req.body.experience;
+      req.session.TotalProjects = req.body.totalprojects;
+      req.session.EnglishLevel = req.body.englishlevel;
+      req.session.Availability = req.body.availability;
+      req.session.DetailedDescription = req.body.DetailedDescriptionText;
 
-      app.locals.numskills = app.locals.Editnumskills;
-      app.locals.numlinks = app.locals.Editnumlinks;
+      req.session.numskills = req.session.Editnumskills;
+      req.session.numlinks = req.session.Editnumlinks;
     
-    
+      res.locals = req.session;
       res.redirect("/profile");
   }
   else
   {
-    app.locals.EditFirstName = req.body.fname;
-    app.locals.EditLastName = req.body.lname;
-    app.locals.EditDescription = req.body.Description;
-    app.locals.EditEmail;
-    app.locals.EditPhoneNumber = req.body.phonenumber;
-    app.locals.EditResume = req.body.resume;
-    app.locals.EditTitle = req.body.title;
-    app.locals.EditExperience = req.body.experience;
-    app.locals.EditTotalProjects = req.body.totalprojects;
-    app.locals.EditEnglishLevel = req.body.englishlevel;
-    app.locals.EditAvailability = req.body.availability;
-    app.locals.EditDetailedDescription = req.body.DetailedDescriptionText;
+    req.session.EditFirstName = req.body.fname;
+    req.session.EditLastName = req.body.lname;
+    req.session.EditDescription = req.body.Description;
+    req.session.EditEmail;
+    req.session.EditPhoneNumber = req.body.phonenumber;
+    req.session.EditResume = req.body.resume;
+    req.session.EditTitle = req.body.title;
+    req.session.EditExperience = req.body.experience;
+    req.session.EditTotalProjects = req.body.totalprojects;
+    req.session.EditEnglishLevel = req.body.englishlevel;
+    req.session.EditAvailability = req.body.availability;
+    req.session.EditDetailedDescription = req.body.DetailedDescriptionText;
 
 
-        for(var i = 0; i < app.locals.EditLinkarr.length; i++)
+        for(var i = 0; i < req.session.EditLinkarr.length; i++)
         {
           console.log("here in the loop");
-          app.locals.EditLinkarr[i][0] = eval("req.body.linkname" + i);
-          app.locals.EditLinkarr[i][1] = eval("req.body.linkurl" + i)
+          req.session.EditLinkarr[i][0] = eval("req.body.linkname" + i);
+          req.session.EditLinkarr[i][1] = eval("req.body.linkurl" + i)
         }
 
-        for(var i = 0; i < app.locals.Editnumskills; i++)
+        for(var i = 0; i < req.session.Editnumskills; i++)
         {
           console.log("here in the loop skill is: " + eval("req.body.skill" + i));
-          app.locals.EditSkillarr[i] = eval("req.body.skill" + i);
+          req.session.EditSkillarr[i] = eval("req.body.skill" + i);
         }
 
 
         if(req.body.uploadimage == "no")
         {
+          console.log("into the conditional");
+          console.log(req.session.Editnumlinks);
         if(req.body.addskill == "yes" || req.body.removeskill == "yes")
         {
 
-          if(req.body.removeskill == "no" && app.locals.numskills < 30)
-            app.locals.Editnumskills = app.locals.Editnumskills + 1;
-          else if(app.locals.Editnumskills > 0)
-            app.locals.Editnumskills = app.locals.Editnumskills - 1;
+          if(req.body.removeskill == "no" && req.session.numskills < 30)
+            req.session.Editnumskills = req.session.Editnumskills + 1;
+          else if(req.session.Editnumskills > 0)
+            req.session.Editnumskills = req.session.Editnumskills - 1;
         }
         else
         {
-        if(req.body.removelink == "no"  && app.locals.Editnumlinks < 30)
+        if(req.body.removelink == "no"  && req.session.Editnumlinks < 30)
         {
-          app.locals.Editnumlinks = app.locals.Editnumlinks + 1;
-          app.locals.EditLinkarr.push(["",""]);
+          req.session.Editnumlinks = req.session.Editnumlinks + 1;
+          req.session.EditLinkarr.push(["",""]);
 
         }
-        else if(app.locals.Editnumlinks > 0)
-          app.locals.Editnumlinks = app.locals.Editnumlinks - 1;
+        else if(req.session.Editnumlinks > 0)
+          req.session.Editnumlinks = req.session.Editnumlinks - 1;
         }
       }
+
+      
+
+      res.locals = req.session;
 
     res.redirect("/editProfile");
   }
@@ -415,23 +484,23 @@ app.post("/login", function (req, res) {
           function (err, result) {
             // If true, log the user in and display the home page
             if (result === true) {
-              app.locals.FirstName = response.data.FirstName;
-              app.locals.LastName = response.data.LastName;
-              app.locals.Description = response.data.Description;
-              app.locals.Email = response.data.Email;
-              app.locals.PhoneNumber = response.data.PhoneNumber;
-              app.locals.Resume = response.data.Resume;
-              app.locals.Title = response.data.Title;
-              app.locals.Links = response.data.Links;
-              app.locals.Skills = response.data.Skills;
-              app.locals.Experience = response.data.Experience;
-              app.locals.HourlyRate = response.data.HourlyRate;
-              app.locals.TotalProjects = response.data.TotalProjects;
-              app.locals.EnglishLevel = response.data.EnglishLevel;
-              app.locals.Availability = response.data.Availability;
-              app.locals.Bio = response.data.Bio;
-              app.locals.DetailedDescription = response.data.DetailedDescription;
-              app.locals.Image = response.data.Image;
+              req.session.FirstName = response.data.FirstName;
+              req.session.LastName = response.data.LastName;
+              req.session.Description = response.data.Description;
+              req.session.Email = response.data.Email;
+              req.session.PhoneNumber = response.data.PhoneNumber;
+              req.session.Resume = response.data.Resume;
+              req.session.Title = response.data.Title;
+              req.session.Links = response.data.Links;
+              req.session.Skills = response.data.Skills;
+              req.session.Experience = response.data.Experience;
+              req.session.HourlyRate = response.data.HourlyRate;
+              req.session.TotalProjects = response.data.TotalProjects;
+              req.session.EnglishLevel = response.data.EnglishLevel;
+              req.session.Availability = response.data.Availability;
+              req.session.Bio = response.data.Bio;
+              req.session.DetailedDescription = response.data.DetailedDescription;
+              req.session.Image = response.data.Image;
 
               
 
@@ -439,43 +508,46 @@ app.post("/login", function (req, res) {
 
 
 
-              app.locals.numskills = response.data.Skills.length;
+              req.session.numskills = response.data.Skills.length;
               
-              app.locals.numlinks = app.locals.Links.length;
+              req.session.numlinks = req.session.Links.length;
 
-              app.locals.Linkarr = [];
+              req.session.Linkarr = [];
               
-              for(var i = 0; i < app.locals.Links.length; i++)
+              console.log(req.session.Linkarr.length);
+              for(var i = 0; i < req.session.Links.length; i++)
               {
-                app.locals.Linkarr[i] = app.locals.Links[i].split("|");
+                req.session.Linkarr[i] = req.session.Links[i].split("|");
               }
 
-              app.locals.Skillarr = [];
-              for(var i = 0; i < app.locals.Skills.length; i++)
+              req.session.Skillarr = [];
+              for(var i = 0; i < req.session.Skills.length; i++)
               {
-                app.locals.Skillarr[i] = app.locals.Skills[i];
+                req.session.Skillarr[i] = req.session.Skills[i];
               }
                
 
-              app.locals.Editnumskills = response.data.Skills.length;
+              req.session.Editnumskills = response.data.Skills.length;
               
-              app.locals.Editnumlinks = app.locals.Links.length;
+              req.session.Editnumlinks = req.session.Links.length;
               
-              app.locals.EditLinkarr = [];
+              req.session.EditLinkarr = [];
            
-              for(var i = 0; i < app.locals.Links.length; i++)
+              for(var i = 0; i < req.session.Links.length; i++)
               {
-                app.locals.EditLinkarr[i] = app.locals.Links[i].split("|");
+                req.session.EditLinkarr[i] = req.session.Links[i].split("|");
               }
 
-              app.locals.EditSkillarr = [];
-              for(var i = 0; i < app.locals.Skills.length; i++)
+              req.session.EditSkillarr = [];
+              for(var i = 0; i < req.session.Skills.length; i++)
               {
-                app.locals.EditSkillarr[i] = app.locals.Skills[i];
+                req.session.EditSkillarr[i] = req.session.Skills[i];
               }
              
               
-              
+              req.session.name = req.body.username;
+              console.log(req.session.name) 
+
 
               res.render("home");
             }

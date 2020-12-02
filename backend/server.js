@@ -64,6 +64,7 @@ app.post('/users', function (req, res) {
 Requires email to be passed as a parameter */
 app.get('/api/getOneUserByEmail', (req, res) => {
 
+  console.log("email: " + req.query.Email)
   usercol.findOne({Email: req.query.Email}, function(err, log) {
     if (!log) {
         res.status(404).send("User not found");
@@ -106,7 +107,7 @@ app.get('/api/comphrensiveSearch', (req, res) => {
                   , {Skills: {$all: [req.query.Skills]}}).toArray(function(err, result) {
       if (err) throw err;
       res.status(200).send(result);
-      console.log(result);
+      
     });
 
 })

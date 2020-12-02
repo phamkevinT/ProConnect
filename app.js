@@ -14,6 +14,10 @@ var cookieParser = require('cookie-parser');
 
 const session = require('express-session')
 
+const {spawn} = require('child_process')
+const path = require('path')
+var sys = require('util')
+
 
 
 const Schema = mongoose.Schema;
@@ -71,6 +75,8 @@ app.get("/home", function (req, res) {
 
   res.render("home");
 });
+
+
 
 // Profile Route
 app.get("/profile", function (req, res) {
@@ -135,6 +141,33 @@ app.get("/profile", function (req, res) {
   res.render("profile");
 });
 
+// Profile Route
+app.get("/viewprofile", function (req, res) {
+  console.log("email is:" + req.query.email)
+
+  axios
+  .get("http://localhost:4000/api/getOneUserByEmail", {
+    params: {
+      Email: req.query.email
+    },
+  })
+  .then(
+    (response) => {
+      
+      res.locals.viewPage = response.data;
+
+      res.render("viewprofile");
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+
+
+  /*res.locals = req.session;*/
+
+});
+
 app.get("/editProfile", function (req, res) {
 
 
@@ -159,12 +192,6 @@ app.get("/contact", function (req, res) {
 app.get("/forgotPassword", function (req, res) {
   res.locals = req.session;
   res.render("forgotPassword");
-});
-
-// Search Result Route
-app.get("/searchResult", function (req, res) {
-  res.locals = req.session;
-  res.render("search_result");
 });
 
 // Capture from register post request when user submit the register form
@@ -571,6 +598,54 @@ app.post("/login", function (req, res) {
     );
 });
 
+
+app.get("/results", function (req, res) {
+
+  console.log('Searching for ' + req.query.search);
+  console.log("test field: " + req.query.Description);
+
+  console.log(`Searching for ${req.query.search}`);
+  const query = req.body.search;
+
+
+  //run Python script containing the search engine
+/*
+  let pyProcess = spawn('python', [path.join(__dirname, "./search_engine.py"),
+    query]);
+
+    pyProcess.stdin.setEncoding('utf8');
+
+    pyProcess.stdout.on('data', function(data){
+      console.log(`Got result from ${result}: ${data}`);
+      res.locals.results = data;
+    });
+
+    //close the child_process stream used
+    pyProcess.on('close', (code) => {
+      console.log(`Closing child process for Python with code ${code}`);
+      
+    });
+
+    */
+
+  axios
+    .get("http://localhost:4000/api/comphrensiveSearch", {
+        params: {
+          SearchQuery: req.body.search,
+        },
+    })
+    .then(
+      (response) => {
+        console.log(response.data[0])
+        res.locals.results = response;
+        res.render("results");
+      },
+      (error) => {
+        console.log("No results");
+      }
+    );
+  
+});
 // Check to see if server is running
 app.listen(8081, function () {
   console.log("Server started on port 8081.");

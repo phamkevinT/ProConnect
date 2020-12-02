@@ -12,6 +12,7 @@
   <meta name="author" content="">
 
   <title>ProConnect</title>
+
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -149,12 +150,15 @@
         <div class="card my-4">
           <h5 class="card-header">Search</h5>
           <div class="card-body">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search for...">
+            <!--- <div class="input-group"> -->
+            <form action="/results" method="GET" id="submitResults">\
+              <input type="text" name="Description" value= "testval">
+              <input type="text" class="form-control" placeholder="Search for..." name="search">
               <span class="input-group-append">
-                <button class="btn btn-secondary" href="/profile" type="button">Go!</button>
+                <button class="btn btn-secondary" type="submit" name="submitQuery">Go!</button>
               </span>
-            </div>
+            </form>
+            <!--- </div> --->
           </div>
         </div>
 

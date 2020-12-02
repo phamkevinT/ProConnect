@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile</title>
+    <title>Edit My Profile</title>
 
     <!-- CSS Stylesheets -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -54,11 +54,15 @@
 
     </nav>
     <section class="user-information" id="top-section">
+    <form action="/editprofile" method="POST" form id="submitchanges">
+    
+
+    
         <div class="outer-user-profile">
 
             <!-- The user's profile information -->
             <div class="container user-profile">
-                <form method="post">
+               
 
                     <!-- Top Portion of Profile Info -->
                     <div class="row">
@@ -68,7 +72,34 @@
                             <div class="profile-img">
                                 
                                 <img src="data:image/jpeg;base64, <%= Image %>"/>
+                                      <div class="file btn btn-lg btn-primary" onChange= "imageUpload()" >
+                                    Change Photo
+                                    <input type="file" id="file-selector" name ="fileimage" multiple="multiple" accept=".png" />
+                                    <input type="hidden" name="uploadimage" id ="uploadimage" value="no"> 
+                                  
+                                     
+                                  
+                                    <script>
+                                      const fileSelector = document.getElementById('file-selector');
+                                      fileSelector.addEventListener('change', (event) => {
+                                        const fileList = event.target.files;
+                                        var reader = new FileReader();
 
+                                        reader.readAsDataURL(fileList[0]);
+                                        reader.onload = function () {
+                                            document.getElementById("uploadimage").value = reader.result;
+                                            document.getElementById("submitchanges").submit(); 
+                                            console.log(reader.result);
+                                        };
+                                        reader.onerror = function (error) {
+                                            console.log('Error: ', error);
+                                        };
+                                  
+                                        
+                                        
+                                      });
+                                    </script>
+                                </div>
                             </div>
                         </div>
 
@@ -79,11 +110,10 @@
                                     <%= FirstName %> <%= LastName %>
                                 </h5>
                                 <h6>
-                                    <%= Description %>
+                                    <input type="text" name="Description" value= "<%= Description %>"><br />
                                 </h6>  
                                 <p class="proile-description"><span> 
-                                    <%= DetailedDescription %>
-
+                                    <textarea id="DetailedDescriptionText" name="DetailedDescriptionText" rows="4" cols="50"><%= DetailedDescription %></textarea>
                                     
 
                                     </span></p>
@@ -102,34 +132,83 @@
                         
 
                         <!-- Edit Profile Button -->
-                        <div class="col-md-2">
-                            <form action="/editProfile" method="POST"></form>
-                            <a class="nav-link" href="/editProfile"><input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile" />
-                                    <span class="sr-only">(current)</span>
-                                </a>
+                            <div class="col-md-2">
+                                
+                                <input type="submit" class="profile-submit-btn" id="submitchanges" name="btnAddMore" value="Submit Changes" />
                             </form>
-                            
-                            
-                        </div>
+                                
+                                
+                            </div>
                     </div>
-
+                    
                     <!-- Bottom Portion of Profile Info -->
-                    <div class="row">
-
                         <!-- Links -->
+
                         <div class="col-md-4">
                             <div class="profile-work">
                                 <p>LINKS</p>
                                 <% for(var i=0; i<numlinks; i++) {%>
-                                    <a href=<%= Linkarr[i][1]%>><%= Linkarr[i][0]%></a><br />
+                                    <input type="text" name="linkname<%= i%>" value= "<%= Linkarr[i][0]%>"> <input type="text" name="linkurl<%= i%>" value= "<%= Linkarr[i][1]%>"><br />
                                  <% } %>
+                                 <input onclick="addlinkfunction()" type="button" value="+" id="addlinkbutton"></input>
+                                 <input onclick="removelinkfunction()" type="button" value="-" id="removelinkbutton"></input>
+                                 <input type="hidden" name="addlink" id ="addlink" value="no">
+                                 <input type="hidden" name="removelink" id ="removelink" value="no">  
+								 
+								 
+                                 <script>
+                                    function addlinkfunction()
+                                           {
+                                               
+                                               document.getElementById("addlink").value = "yes";
+                                               document.getElementById("submitchanges").submit(); 
+                                           }
+   
+                                </script>
+   
+                                <script>        
+                                    function removelinkfunction() 
+                                    {
+                                        document.getElementById("removelink").value = "yes";
+                                        document.getElementById("submitchanges").submit();           
+                                    }
+                                </script>
+
                                 <p>SKILLS</p>
                                 <% for(var i=0; i<numskills; i++) {%>
-                                    <a href=""><%= Skillarr[i]%></a><br />
+                                    <input type="text" name="skill<%= i%>" value= "<%= Skills[i]%>"><br />
                                  <% } %>
+                        
+                                 <input onclick="change()" type="button" value="Add Skill" id="myButton1"></input>
+                                 <input onclick="remove()" type="button" value="Remove Skill" id="myButton2"></input>
+                                 <input type="hidden" name="addskill" id ="addskill" value="no">
+                                 <input type="hidden" name="removeskill" id ="removeskill" value="no">     
+                                
+                                 <script>
+                                 function change()
+                                        {
+                                            
+                                            document.getElementById("addskill").value = "yes";
+                                            document.getElementById("submitchanges").submit();
+                                           
+                                                   
+                                        }
+
+                                 </script>
+
+                                <script>        
+                                        function remove() 
+                                        {
+                                            
+                                            document.getElementById("removeskill").value = "yes";
+                                            document.getElementById("submitchanges").submit();           
+                                        }
+
+                                 </script>
+
+
                             </div>
                         </div>
-
                         <!-- Tab Information -->
                         <div class="col-md-8">
                             <div class="tab-content profile-tab" id="myTabContent">
@@ -140,7 +219,7 @@
                                             <label>Name</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <p><%= FirstName %> <%= LastName %></p>
+                                            <p><input type="text" name="fname" id="fname" value= <%= FirstName %>> <input type="text" name="lname" value= <%= LastName %>></p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -148,7 +227,7 @@
                                             <label>Email</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <p><%= Email %></p>
+                                        <p><input type="text" name="email" id="email" value= <%= Email %>></p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -156,7 +235,8 @@
                                             <label>Phone Number</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <p><%= PhoneNumber %></p>
+                                        <p><input type="text" name="phonenumber" value= <%= PhoneNumber %>></p>
+                                            
                                         </div>
                                     </div>
                                     <div class="row">
@@ -164,7 +244,7 @@
                                             <label>Profession</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <p><%= Title %></p>
+                                        <p><input type="text" name="title" value= <%= Title %>></p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -172,7 +252,7 @@
                                             <label>Resume</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <p><%= Resume %></p>
+                                        <p><input type="text" name="resume" value= <%= Resume %>></p>
                                         </div>
                                     </div>
                                 </div>
@@ -184,7 +264,7 @@
                                             <label>Experience</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <p><%= Experience %></p>
+                                        <p><input type="text" name="experience" value= <%= Experience %>></p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -192,7 +272,7 @@
                                             <label>Total Projects</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <p><%= TotalProjects %></p>
+                                        <p><input type="text" name="totalprojects" value= <%= TotalProjects %>></p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -200,7 +280,7 @@
                                             <label>English Level</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <p><%= EnglishLevel %></p>
+                                        <p><input type="text" name="englishlevel" value= <%= EnglishLevel %>></p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -208,7 +288,7 @@
                                             <label>Availability</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <p><%= Availability %></p>
+                                        <p><input type="text" name="availability" value= <%= Availability %>></p>
                                         </div>
                                     </div>
                                 </div>

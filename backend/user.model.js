@@ -20,12 +20,6 @@ let User = new Schema({
         required: true,
         unique: true
     },
-    Username: {
-        type: String,
-        trim: true,
-        required: true,
-        unique: true
-    },
     Password: {
         type: String,
         trim: true,
@@ -99,6 +93,12 @@ let User = new Schema({
         unique: false
     },
     DetailedDescription: {
+        type: String,
+        trim: true,
+        required: true,
+        unique: false
+    },
+    Image: {
         type: String,
         trim: true,
         required: true,

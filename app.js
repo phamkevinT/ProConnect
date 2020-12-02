@@ -161,6 +161,12 @@ app.get("/forgotPassword", function (req, res) {
   res.render("forgotPassword");
 });
 
+// Search Result Route
+app.get("/searchResult", function (req, res) {
+  res.locals = req.session;
+  res.render("search_result");
+});
+
 // Capture from register post request when user submit the register form
 app.post("/register", function (req, res) {
   res.locals = req.session;

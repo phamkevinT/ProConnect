@@ -21,6 +21,41 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
     </script>
+    <style>
+        input {
+            padding: 12px 20px;
+            margin: 1px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .user-profile {
+            background-color: #f2f2f2;
+        }
+        .profile_desc {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 1px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .submit_button {
+            background-color: #4a5259;
+            font-weight: bold;
+            color: #f2f2f2;
+        }
+        .submit_button:hover {
+            background-color: #5f5f5f;
+            font-weight: bold;
+            color: #f2f2f2;
+        }
+        .link_field {
+            background-color: #aeafb0;
+        }
+    </style>
 </head>
 
 <body>
@@ -113,7 +148,7 @@
                                     <input type="text" name="Description" value= "<%= EditDescription %>"><br />
                                 </h6>  
                                 <p class="proile-description"><span> 
-                                    <textarea id="DetailedDescriptionText" name="DetailedDescriptionText" rows="4" cols="50"><%= EditDetailedDescription %></textarea>
+                                    <textarea class="profile_desc" id="DetailedDescriptionText" name="DetailedDescriptionText" rows="4" cols="50"><%= EditDetailedDescription %></textarea>
                                     
 
                                     </span></p>
@@ -134,7 +169,7 @@
                         <!-- Edit Profile Button -->
                             <div class="col-md-2">
                                 
-                                <input type="submit" class="profile-submit-btn" id="submitchanges" name="btnAddMore" value="Submit Changes" />
+                                <input type="submit" class="submit_button" id="submitchanges" name="btnAddMore" value="Submit Changes" />
                             </form>
                                 
                                 
@@ -150,10 +185,10 @@
                                 <div class="profile-work">
                                     <p>LINKS</p>
                                     <% for(var i=0; i<Editnumlinks; i++) {%>
-                                        <input type="text" name="linkname<%= i%>" value= "<%= EditLinkarr[i][0]%>"> <input type="text" name="linkurl<%= i%>" value= "<%= EditLinkarr[i][1]%>"><br />
+                                        <input class="link_field" type="text" name="linkname<%= i%>" value= "<%= EditLinkarr[i][0]%>"> <input type="text" name="linkurl<%= i%>" value= "<%= EditLinkarr[i][1]%>"><br />
                                      <% } %>
-                                     <input onclick="addlinkfunction()" type="button" value="+" id="addlinkbutton"></input>
-                                     <input onclick="removelinkfunction()" type="button" value="-" id="removelinkbutton"></input>
+                                     <input onclick="addlinkfunction()" class="submit_button" type="button" value="Add" id="addlinkbutton"></input>
+                                     <input onclick="removelinkfunction()" class="submit_button" type="button" value="Remove" id="removelinkbutton"></input>
                                      <input type="hidden" name="addlink" id ="addlink" value="no">
                                      <input type="hidden" name="removelink" id ="removelink" value="no">  
                                      <script>
@@ -176,8 +211,8 @@
                                     <% for(var i=0; i<Editnumskills; i++) {%>
                                         <input type="text" name="skill<%= i%>" value= "<%= EditSkillarr[i]%>"><br />
                                      <% } %>
-                                     <input onclick="change()" type="button" value="+" id="myButton1"></input>
-                                     <input onclick="remove()" type="button" value="-" id="myButton2"></input>
+                                     <input class="submit_button" onclick="change()" type="button" value="Add" id="myButton1"></input>
+                                     <input class="submit_button" onclick="remove()" type="button" value="Remove" id="myButton2"></input>
                                      <input type="hidden" name="addskill" id ="addskill" value="no">
                                      <input type="hidden" name="removeskill" id ="removeskill" value="no">  
                                      <script>

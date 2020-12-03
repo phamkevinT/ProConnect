@@ -10,7 +10,7 @@ Cloning the project
 git clone https://github.com/phamkevinT/ProConnect.git
 ```
 
-Install the following packages using 'npm install'
+Install the following packages using npm install
 ```bash
 - Express
 - Body-Parser
@@ -20,21 +20,21 @@ Install the following packages using 'npm install'
 - BcryptJS
 - Cookie-Parser
 - Express-Session
-- Concurrently
 ```
 
 
 ## Usage
 
-Navigate to the live website located at
+Navigate to the website located at
 ```bash
 [ProConnect](https://sjsuproconnect.com)
 ```
 
-Alternatively, run the application locally
+Running the application locally
 ```bash
 1) CD into the PROCONNECT folder
 2) Run the following in the terminal: npm start
+3) In your browser, navigate to localhost:8081
 ```
 
 ## Tools

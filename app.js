@@ -27,14 +27,6 @@ app.use(
   })
 );
 
-//run Python script containing the search engine
-let pyProcess = spawn('python', [
-    "-u",
-    path.join(__dirname, "./search_engine.py"),
-  ]);
-
-pyProcess.stdin.setEncoding('utf8');
-
 // User Schema that takes an email and password
 const userSchema = new mongoose.Schema({
   fName: { type: String },
@@ -154,39 +146,56 @@ app.post("/login", function (req, res) {
     );
 });
 
-app.post("/results", function (req, res) {
+app.get("/results", function (req, res) {
 
-  const result = req.body.searchQuery;
-  console.log(`Searching for ${result}`);
+  console.log(`Searching for ${req.query.search}`);
 
-  pyProcess.stdout.on('data', function(data) {
 
+  //run Python script containing the search engine
+
+  let pyProcess = spawn('python', [path.join(__dirname, "./backend/search_engine.py"),
+    req.query.search]);
+
+  pyProcess.stdin.setEncoding('utf8');
+
+  pyProcess.stdout.on('data', function(data){
+    console.log(`${data} found!`);
+
+    if(data === undefined){
+      res.render("no-results")
+    }
+    else{
+      res.locals.results = data;
+      res.render("results");
+    }
   });
 
+    //close the child_process stream used
+  pyProcess.on('close', (code) => {
+    console.log(`${req.query.search} not found!`);
+    res.render("no-results");
+    console.log(`Closing child process for Python with code ${code}`);
+  });
+
+
+ /*
   axios
     .get("http://localhost:4000/api/comphrensiveSearch", {
         params: {
-          searchQuery: req.body.searchQuery
+          SearchQuery: req.body.search,
         },
     })
     .then(
       (response) => {
         console.log(response)
-        if (response !== undefined) {
-          //write data to HTML page named "results"
-          res.render("results");
-        }
-        else {
-          //otherwise, return "noResults.html"
-          res.render("no-results");
-         console.log("Query did not produce any results");
-        }
+        res.locals.results = response;
+        res.render("results");
       },
       (error) => {
-        res.render("no-results");
-        console.log(error);
+        console.log("No results");
       }
     );
+    */
 });
 
 // Check to see if server is running

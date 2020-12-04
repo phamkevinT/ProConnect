@@ -6,10 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile</title>
 
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500&family=Varela+Round&display=swap"
+        rel="stylesheet">
+
     <!-- CSS Stylesheets -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <!-- <link rel="stylesheet" href="css/profile.css"> -->
+
 
     <!-- Bootstrap Scripts -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -22,81 +27,71 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
     </script>
     <style>
-        .search-results {
-            width: 65%;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 3%;
-            background-color: #cfcecc;
-            min-height: 100vh;
+        body {
+            background-color: rgb(167, 167, 167);
         }
 
-        .searchContainer {
-            width: 75%;
+        .posts {
+            width: 60%;
             margin: auto;
         }
 
-        .people-result {
-            background-color: #e6e6e6;
-            width: 75%;
-            margin: auto;
-            height: 100%;
-            padding-top: 50px;
-            padding-bottom: 50px;
+        .original-post {
+            margin-bottom: 10px;
+            margin-top: 5%;
         }
 
-        .person {
-            display: table;
-            width: 75%;
-            margin: auto;
-            margin-bottom: 25px;
-            height: 150px;
-            border-radius: 10px;
-            background-color: #cfcecc;
+        .user-post-title {
+            font-family: 'Varela Round', sans-serif;
+            font-size: 30px;
         }
 
-        .row {
-            display: table-row;
-            height: 150px;
-        }
-
-        .person-img {
-            padding: 5px;
-            height: 100%;
-            width: 25%;
-            display: table-cell;
-        }
-
-        .person-name {
-            display: table-cell;
-            text-align: center;
-            vertical-align: center;
-            width: 20%;
-            height: 150px;
-            padding: 10px;
+        .card {
+            margin-bottom: 10px;
+            padding: 2%;
         }
 
         .name {
-            font-size: 22px;
+            font-size: 18px;
         }
 
-        .add-btn {
-            margin-top: auto;
-            padding: 10px;
+        .new-comment {
+            float: right;
         }
 
-        .person-desc {
-            font-size: 16px;
-            display: table-cell;
-            text-align: left;
-            padding: 10px;
-            vertical-align: center;
+        .comment-section {
+            background-color: white;
+            padding: 2%;
         }
 
-        img {
+        .individual-comment {
+            display: flex;
+            padding: 2%;
+            border-radius: 20px;
+            background-color: rgb(167, 167, 167);
+            margin-bottom: 5px;
+        }
+
+        .user-img {
+            background-color: blue;
             border-radius: 50%;
-            width: 100%;
-            height: 150px;
+            height: 75px;
+            width: 75px;
+            position: absolute;
+        }
+
+        .user-comment {
+            padding: 1px;
+            flex-grow: 1;
+            margin-left: 100px;
+
+        }
+
+        .comment-date {
+            float: right;
+            vertical-align: bottom;
+            padding: 0px;
+            margin: 0px;
         }
     </style>
 </head>
@@ -136,39 +131,103 @@
 
     <div class="posts">
 
-        <br>
-        <br>
-        <br>
-        <% for(var i=0; i<comments.length; i++) {%>
+        <div class="original-post">
+            <div class="card">
 
-        <br>
+                <!-- Post title -->
+                <h2 class="user-post-title">The Post's Title</h2>
 
-        <div class="person-name">
-            <img src="data:image/jpeg;base64, <%= userImages[i]%>" />
-            <h2 class="name"><%= comments[i].CommentContent%></h2>
-            <form action="/viewProfile" method="GET">
-                By <a href=/viewProfile?email=<%= comments[i].CommenterEmail%>> <%= comments[i].CommenterName%></a> On
-                    <p class="desc">Comment Time: <%= comments[i].CommentTime%><br />
-            </form>
+                <!-- Post author's name -->
+                <!-- Need to implement dynamic date -->
+                <h2 class="name">By: John Doe, Dec 4, 2020</h2>
+
+                <!-- The post's content -->
+                <div class="post-desc">
+                    <!-- Probably have to make it so it only deisplays 'X' amount of text so we can utilze the read more button -->
+                    <p>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+                        the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
+                        of type and scrambled it to make a type specimen book
+                    </p>
+
+                    <!-- Add new comment -->
+                    <div class="add-comment">
+                        <button type="button" class="btn btn-dark new-comment">Add Comment</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <br>
+
+        <!-- Container for the comment section -->
+        <div class="comment-section">
+
+            <!-- A user's comment -->
+            <div class="individual-comment">
+
+                <!-- The user's image -->
+                <div class="user-img">
+
+                </div>
+
+                <!-- The user's comment -->
+                <div class="user-comment">
+                    <p>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+                        printer took a galley
+                        of type and scrambled it to make a type specimen book
+                    </p>
+
+                    <!-- Date of comment -->
+                    <div class="comment-date">
+                        <p>
+                            Comment posted on: Dec 3, 2020.
+                        </p>
+                    </div>
+                </div>
+            </div>
 
 
-        </a>
+            <div class="individual-comment">
+                <div class="user-img">
 
-        </form>
+                </div>
+                <div class="user-comment">
+                    <p>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+                        printer took a galley
+                        of type and scrambled it to make a type specimen book
+                    </p>
+                    <div class="comment-date">
+                        <p>
+                            Comment posted on: Dec 3, 2020.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
 
 
-        <% } %>
+            <div class="individual-comment">
+                <div class="user-img">
 
-
-        <form action="/postComment" method="POST">
-            <input type="hidden" name="postTitle" id="postTitle" value="<%=PostTitle%>">
-            <textarea class="profile_desc" id="CommentText" name="CommentText" rows="4" cols="50"></textarea>
-            <button type="submit" class="btn btn-dark">Post Comment</button>
-        </form>
-
-
+                </div>
+                <div class="user-comment">
+                    <p>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+                        printer took a galley
+                        of type and scrambled it to make a type specimen book
+                    </p>
+                    <div class="comment-date">
+                        <p>
+                            Comment posted on: Dec 3, 2020.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 

@@ -136,35 +136,37 @@
         <br>
         <br>
         <br>
-    <% for(var i=0; i<comments.length; i++) {%>
-        
-            <br>
+        <% for(var i=0; i<comments.length; i++) {%>
 
-                <div class="person-name">
-                    <img src="data:image/jpeg;base64, <%= userImages[i]%>"/> <h2 class="name"><%= comments[i].CommentContent%></h2>
-                    <form action="/viewProfile" method="GET">   
-                    By <a href=/viewProfile?email=<%= comments[i].CommenterEmail%>> <%= comments[i].CommenterName%></a> On <p class="desc">Comment Time: <%= comments[i].CommentTime%><br/>
-                    </form>
-                </div>
-                <br>
-                
-           
-                </a>
-                    
-                </form>
-      
+        <br>
 
-            <% } %>
+        <div class="person-name">
+            <img src="data:image/jpeg;base64, <%= userImages[i]%>" />
+            <h2 class="name"><%= comments[i].CommentContent%></h2>
+            <form action="/viewProfile" method="GET">
+                By <a href=/viewProfile?email=<%= comments[i].CommenterEmail%>> <%= comments[i].CommenterName%></a> On
+                    <p class="desc">Comment Time: <%= comments[i].CommentTime%><br />
+            </form>
+        </div>
+        <br>
 
-            
-            <form action="/postComment" method="POST">
-            <input type="hidden" name="postTitle" id ="postTitle" value="<%=PostTitle%>">
+
+        </a>
+
+        </form>
+
+
+        <% } %>
+
+
+        <form action="/postComment" method="POST">
+            <input type="hidden" name="postTitle" id="postTitle" value="<%=PostTitle%>">
             <textarea class="profile_desc" id="CommentText" name="CommentText" rows="4" cols="50"></textarea>
             <button type="submit" class="btn btn-dark">Post Comment</button>
-            </form>
+        </form>
 
 
-       
+
     </div>
 
 </body>

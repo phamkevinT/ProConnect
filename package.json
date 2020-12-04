@@ -4,7 +4,7 @@
   "description": "ProConnect is a web-based application that matches its users with companies together based on user listed traits (e.g., experience, languages education, work style...). ProConnect allows users to customize their individual profile to better showcase personal projects and resumes.",
   "main": "app.js",
   "scripts": {
-    "start": "concurrently \"node app.js\" \"node backend/server.js\"",
+    "start": "concurrently \"node app.js\" \"node backend/server.js\" \"node backend/postServer.js\" \"node backend/commentServer.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

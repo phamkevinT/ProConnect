@@ -141,10 +141,160 @@ app.get("/profile", function (req, res) {
   res.render("profile");
 });
 
+
+app.get("/viewPost", function (req, res) {
+  console.log("postTitle is:" + req.query.postTitle)
+
+  axios
+  .get("http://localhost:3000/api/getComments", {
+    params: {
+      ParentPost: req.query.postTitle
+    },
+  })
+  .then(
+    (response) => {
+      res.locals.PostTitle = req.query.postTitle;
+
+      res.locals.userImages = [];
+      for(var i = 0; i < 2; i++)
+      {
+        console.log("Loop")
+        console.log("Email going into query: " + response.data[i].CommenterEmail)
+        axios
+        .get("http://localhost:4000/api/getOneUserByEmail", {
+          params: {
+            Email: response.data[i].CommenterEmail
+          },
+        })
+        .then(
+          (response2) => {
+            res.locals.userImages[i] = response2.data.Image;
+            
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+        
+      }
+      res.locals.comments = response.data;
+      console.log("Images: " + res.locals.userImages)
+      console.log("Got here")
+      res.render("viewPost");
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+
+
+  /*res.locals = req.session;*/
+
+});
+
+app.post("/postComment", function (req, res) {
+  res.locals = req.session;
+  console.log("got here: " + req.body.postTitle);
+
+
+    axios
+      .post("http://localhost:3000/api/createComment", {
+        ParentPost: req.body.postTitle,
+        Email: req.session.Email,
+        Name: req.session.FirstName + " " + req.session.LastName,
+        CommentContent: req.body.CommentText
+      })
+      .then(
+        (response) => {
+          
+
+          
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
+      axios
+      .post("http://localhost:2000/api/updatePost", {
+        PostTitle: req.body.postTitle,
+      })
+      .then(
+        (response) => {  
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
+      axios
+      .get("http://localhost:3000/api/getComments", {
+        params: {
+          ParentPost: req.body.postTitle
+        },
+      })
+      .then(
+        (response) => {
+          res.locals.comments = response.data;
+
+          console.log("Here before the redirect")
+          res.redirect("/viewPost?postTitle=" + req.body.postTitle);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
+  
+});
+
+app.post("/newPost", function (req, res) {
+  res.locals = req.session;
+
+    axios
+      .post("http://localhost:2000/api/createPost", {
+        PostTitle: req.body.newpostTitle,
+        Email: req.session.Email,
+        Name: req.session.FirstName + " " + req.session.LastName,
+        CommentContent: req.body.CommentText
+
+      })
+      .then(
+        (response) => {
+          
+
+          
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
+      axios
+      .get("http://localhost:2000/api/getPosts", {
+        params: {
+        },
+      })
+      .then(
+        (response) => {
+          
+          res.locals.posts = response.data;
+    
+          res.render("messageboard");
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
+  
+});
+
+
 // Profile Route
 app.get("/viewprofile", function (req, res) {
   console.log("email is:" + req.query.email)
-
+  
   axios
   .get("http://localhost:4000/api/getOneUserByEmail", {
     params: {
@@ -156,7 +306,7 @@ app.get("/viewprofile", function (req, res) {
       
       res.locals.viewPage = response.data;
 
-      res.render("viewprofile");
+      res.render("viewProfile");
     },
     (error) => {
       console.log(error);
@@ -180,6 +330,26 @@ app.get("/editProfile", function (req, res) {
 app.get("/about", function (req, res) {
   res.locals = req.session;
   res.render("about");
+});
+
+app.get("/messageboard", function (req, res) {
+  axios
+  .get("http://localhost:2000/api/getPosts", {
+    params: {
+    },
+  })
+  .then(
+    (response) => {
+      
+      res.locals.posts = response.data;
+
+      res.render("messageboard");
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+  res.locals = req.session;
 });
 
 // Contact Route

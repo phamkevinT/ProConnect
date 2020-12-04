@@ -4,54 +4,25 @@ ProConnect is a web-based application that matches its users with companies toge
 
 ## Installation
 
-Cloning the project 
+To be added....
 
 ```bash
-git clone https://github.com/phamkevinT/ProConnect.git
-```
 
-Install the following packages using npm install
-```bash
-- Express
-- Body-Parser
-- EJS
-- Mongoose
-- Axios
-- BcryptJS
-- Cookie-Parser
-- Express-Session
 ```
-
 
 ## Usage
 
-Navigate to the website located at
 ```bash
-[ProConnect](https://sjsuproconnect.com)
-```
+- Run local MongoDB using the cmd: 'mongod'
+- Start the server using the cmd: 'nodemon app.js'
+- Open browser and go to 'localhost:3000'
 
-Running the application locally
-```bash
-1) CD into the PROCONNECT folder
-2) Run the following in the terminal: npm start
-3) In your browser, navigate to localhost:8081
 ```
 
 ## Tools
 
 ```python
-- JavaScript
-- HTML & CSS
-- Axios
-- NodeJS
-- ExpressJS
-- MongoDB
-- MongoDB Atlas
-- AWS EC2
-- Python
-- Pymongo
-- Elasticsearch
-- Scikit-Learn
+
 ```
 
 ## Team Members
@@ -65,4 +36,4 @@ San Jose State University
 ```
 
 ## Credit
-[BootSnipp - Bootstrap Profile Page Design Template](https://bootsnipp.com/snippets/K0ZmK)
+[BootSnipp - Bootstrap Profile Page Design](https://bootsnipp.com/snippets/K0ZmK)

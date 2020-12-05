@@ -36,6 +36,7 @@ app.use(
     extended: false,
   })
 );
+
 app.use(session({
   'secret': '343ji43j4n3jn4jk3n'
 }))
@@ -598,7 +599,6 @@ app.post("/login", function (req, res) {
     );
 });
 
-
 app.get("/results", function (req, res) {
 
   console.log('Searching for ' + req.query.search);
@@ -610,24 +610,34 @@ app.get("/results", function (req, res) {
 
   //run Python script containing the search engine
 /*
-  let pyProcess = spawn('python', [path.join(__dirname, "./search_engine.py"),
-    query]);
 
-    pyProcess.stdin.setEncoding('utf8');
+   let pyProcess = spawn('python', [path.join(__dirname, "./backend/search_engine.py"),
+    req.query.search]);
 
-    pyProcess.stdout.on('data', function(data){
-      console.log(`Got result from ${result}: ${data}`);
+  pyProcess.stdin.setEncoding('utf8');
+
+  pyProcess.stdout.on('data', function(data){
+
+    if(data === undefined){
+      console.log(`${req.query.search} not found!`);
+      res.render("no-results");
+    }
+    else{
+      console.log(`${req.query.search} found!`);
       res.locals.results = data;
-    });
+      res.render("results");
+    }
+  });
+
 
     //close the child_process stream used
-    pyProcess.on('close', (code) => {
-      console.log(`Closing child process for Python with code ${code}`);
-      
-    });
+  pyProcess.on('close', (code) => {
+    console.log(`Closing child process for Python with code ${code}`);
+  });
+  
+  8?
 
-    */
-
+ /* For backup
   axios
     .get("http://localhost:4000/api/comphrensiveSearch", {
         params: {
@@ -644,7 +654,6 @@ app.get("/results", function (req, res) {
         console.log("No results");
       }
     );
-  
 });
 // Check to see if server is running
 app.listen(8081, function () {

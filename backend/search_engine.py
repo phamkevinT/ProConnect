@@ -1,42 +1,16 @@
-import sys, getopt, json
+import sys, getopt, time
 
-# it is recommended that Elasticsearch version 7.10.0 is used. Tests were made using this.
-
-from elasticsearch import Elasticsearch
+from Elasticsearch import elasticsearch
 from pymongo import MongoClient, uri_parser
 from pymongo.errors import ConnectionFailure
-from bson import json_util
 
-def index(es_object=Elasticsearch(), index_name="proconnect-index", doc_type="proconnect-page", id=0, document={}):
-    # the official index to be returned
-    res = es_object.index(index=index_name, doc_type=doc_type, id=id, body=document)
-    return res['result']
+def mongo_search(mongo_search_function):
+    pass
 
-def search(es_object=Elasticsearch(), index_name="proconnect-index", query={'query': {'match': {}}}, isName=True):
-    res = es_object.search(index=index_name, body=query)
+def main(argv):
 
-    if isName == False:
-        title_array = []
-        res_hits_index = 0
-
-        while res_hits_index < len(res['hits']['hits']):
-            title_array.append("" + res['hits']['hits'][res_hits_index]['_source'])
-
-        return title_array
-
-    else:
-        name_array = []
-        res_hits_index = 0
-
-        while res_hits_index < len(res['hits']['hits']):
-            name_array.append("" + res['hits']['hits'][res_hits_index]['_source']['FirstName'] + " " + res['hits']['hits'][res_hits_index]['_source']['LastName'])
-            res_hits_index+=1
-
-        return name_array
-
-def main(arg):
-
-    proconnect_uri = "mongodb+srv://user:OkfGMkxHXu1FouKu@cluster0.jtm8k.mongodb.net/proconnect?retryWrites=true&w=majority"
+    es = ElasticSearch()
+    uri = argv[2]
 
     try:
         client = MongoClient(proconnect_uri)
@@ -161,10 +135,11 @@ def main(arg):
         print(results)
 
 
+
 if __name__ == "__main__":
     # sys.argv[1] is for the query the user has inputted in the search bar
     if len(sys.argv) == 1:
         print("No query is provided. Exiting...")
         sys.exit(1)
-
     main(sys.argv[1])
+

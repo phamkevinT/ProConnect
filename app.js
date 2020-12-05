@@ -763,7 +763,9 @@ app.get("/results", function (req, res) {
   const query = req.body.search;
 
 
-  //run Python script containing the search engine
+  /** run Python script containing the search engine; issue with data sent is still apparent; once fixed comprehensiveSearch will be replaced,
+   * and search_engine.py will be enhanced to perform more efficiently
+   */
 /*
   let pyProcess = spawn('python', [path.join(__dirname, "./search_engine.py"),
     query]);

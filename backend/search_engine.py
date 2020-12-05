@@ -12,9 +12,27 @@ def index(es_object=Elasticsearch(), index_name="proconnect-index", doc_type="pr
     res = es_object.index(index=index_name, doc_type=doc_type, id=id, body=document)
     return res['result']
 
-def search(es_object=Elasticsearch(), index_name="proconnect-index", query={'query': {'match': {}}}):
+def search(es_object=Elasticsearch(), index_name="proconnect-index", query={'query': {'match': {}}}, isName=True):
     res = es_object.search(index=index_name, body=query)
-    return res['_source']['FirstName']['LastName']
+
+    if isName == False:
+        title_array = []
+        res_hits_index = 0
+
+        while res_hits_index < len(res['hits']['hits']):
+            title_array.append("" + res['hits']['hits'][res_hits_index]['_source'])
+
+        return title_array
+
+    else:
+        name_array = []
+        res_hits_index = 0
+
+        while res_hits_index < len(res['hits']['hits']):
+            name_array.append("" + res['hits']['hits'][res_hits_index]['_source']['FirstName'] + " " + res['hits']['hits'][res_hits_index]['_source']['LastName'])
+            res_hits_index+=1
+
+        return name_array
 
 def main(arg):
 
@@ -31,31 +49,31 @@ def main(arg):
         print('usage: search_engine.py <option; -u is recommended> <argument 1, argument 2...>')
         sys.exit(0)
 
-    es = Elasticsearch()
+    es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
 
     # checks if the index exists just in case
     if es.indices.exists(index='proconnect-index'):
         es.indices.delete(index='proconnect-index', ignore=[400, 404])
 
+        print("=================================")
+        print("Index 'proconnect-index' deleted")
+        print("=================================")
+
     es.indices.create(index='proconnect-index', ignore=400)
+
+    print("=================================")
+    print("Index 'proconnect-index' created")
+    print("=================================")
 
     db = client['proconnect']
     users_col = db['users']
 
     # Get a Python list of all the documents in the "users" collection
-    users_col_list = users_col.find({}, {"_id": 0, "FirstName": 1, "LastName": 1})
+    users_col_list = users_col.find({}, {"_id": 0, "FirstName": 1, "LastName": 1, "Title": 1, "Skills": 1})
 
     print("=================================")
     print("users_col.find() processed")
     print("=================================")
-
-    """
-    {"_id": 0, "FirstName": 1, "LastName": 1, "Description": 1,
-        "Email": 0, "PhoneNumber": 0, "Resume": 0, "Title": 1, "Links": 0,
-        "Skills": 1, "Experience": 0, "HourlyRate": 0, "TotalProjects": 0, "EnglishLevel": 0,
-        "Availability": 0, "Bio": 0, "DetailedDescription": 0, "Username": 0, "Password": 0,
-        "Image": 0}
-    """
 
     # Used for converting BSON documents to JSON format for Elasticsearch indexing and searching
     users_col_list_json = []
@@ -78,38 +96,59 @@ def main(arg):
     print("All documents indexed")
     print("=================================")
 
-    search_query = ""
-    #firstname = ""
+    search_query = arg
+    firstname = ""
     lastname = ""
 
     # check for a space in the query
-    space_index = arg.find(" ")
+    space_index = " " in search_query
 
     #if there's none, leave it and store in "search_query"
     if not space_index:
-        search_query = arg
-
-        result = search(es, query={"query": {
-            "match_all": {}
+        results = search(es, query={"query": {
+                "bool": {
+                    "should": [
+                        {
+                            "match": {
+                                "Title": search_query
+                            }
+                        },
+                        {
+                            "match": {
+                                "Skills": search_query
+                            }
+                        },
+                    ]
+                }
             }
-        })
+        }, isName=False)
 
         print("=================================")
         print("Search complete")
         print("=================================")
         # Delete index 'proconnect-index' to clear up memory after search is done, so to not waste memory
         es.indices.delete(index='proconnect-index', ignore=[400, 404])
-        print(result)
+        print(results)
 
     #otherwise, assume its a name and split the arg
     else:
-        #firstname = arg[0:space_index]
+        firstname = arg[0:space_index]
         lastname = arg[space_index:len(arg)]
 
-        result = search(es, query={"query":
-            {
-                "match": {
-                    "LastName": lastname
+        results = search(es, query={"query": {
+                "bool": {
+                    "should": [
+                        {
+                            "match": {
+                                "FirstName": firstname
+                            }
+                        },
+                        {
+                            "match": {
+                                "LastName": lastname
+                            }
+                        },
+                    ]
                 }
             }
         })
@@ -119,7 +158,7 @@ def main(arg):
         print("=================================")
 
         es.indices.delete(index='proconnect-index', ignore=[400, 404])
-        print(result)
+        print(results)
 
 
 if __name__ == "__main__":

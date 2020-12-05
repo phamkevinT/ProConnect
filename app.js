@@ -159,12 +159,13 @@ app.get("/results", function (req, res) {
   pyProcess.stdin.setEncoding('utf8');
 
   pyProcess.stdout.on('data', function(data){
-    console.log(`${data} found!`);
 
     if(data === undefined){
-      res.render("no-results")
+      console.log(`${req.query.search} not found!`);
+      res.render("no-results");
     }
     else{
+      console.log(`${req.query.search} found!`);
       res.locals.results = data;
       res.render("results");
     }
@@ -172,13 +173,10 @@ app.get("/results", function (req, res) {
 
     //close the child_process stream used
   pyProcess.on('close', (code) => {
-    console.log(`${req.query.search} not found!`);
-    res.render("no-results");
     console.log(`Closing child process for Python with code ${code}`);
   });
 
-
- /*
+ /* For backup
   axios
     .get("http://localhost:4000/api/comphrensiveSearch", {
         params: {
@@ -187,15 +185,16 @@ app.get("/results", function (req, res) {
     })
     .then(
       (response) => {
-        console.log(response)
         res.locals.results = response;
+        console.log(typeof res.locals.results)
         res.render("results");
       },
       (error) => {
         console.log("No results");
       }
     );
-    */
+  */
+
 });
 
 // Check to see if server is running

@@ -36,7 +36,6 @@ app.use(
     extended: false,
   })
 );
-
 app.use(session({
   'secret': '343ji43j4n3jn4jk3n'
 }))
@@ -142,10 +141,144 @@ app.get("/profile", function (req, res) {
   res.render("profile");
 });
 
+
+app.get("/viewPost", function (req, res) {
+  console.log("postTitle is:" + req.query.postTitle)
+  console.log("postContent is:" + req.query.postContent)
+  
+  
+  axios
+  .get("http://localhost:3000/api/getComments", {
+    params: {
+      ParentPost: req.query.postTitle
+    },
+  })
+  .then(
+    (response) => {
+      res.locals.PostTitle = req.query.postTitle;
+      res.locals.postContent = req.query.postContent
+      res.locals.posterName = req.query.posterName
+      res.locals.postDate = req.query.postDate
+
+      res.locals.comments = response.data;
+  
+      console.log("Got here")
+      res.render("viewPost");
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+
+
+  /*res.locals = req.session;*/
+
+});
+
+app.post("/postComment", function (req, res) {
+  res.locals = req.session;
+  console.log("post contents" + req.body.postContent)
+
+    axios
+      .post("http://localhost:3000/api/createComment", {
+        ParentPost: req.body.postTitle,
+        Email: req.session.Email,
+        Name: req.session.FirstName + " " + req.session.LastName,
+        CommentContent: req.body.CommentText
+      })
+      .then(
+        (response) => {
+          
+
+          
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
+      axios
+      .post("http://localhost:2000/api/updatePost", {
+        PostTitle: req.body.postTitle,
+      })
+      .then(
+        (response) => {  
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
+      axios
+      .get("http://localhost:3000/api/getComments", {
+        params: {
+          ParentPost: req.body.postTitle
+        },
+      })
+      .then(
+        (response) => {
+          res.locals.comments = response.data;
+
+          console.log("Here before the redirect")
+          res.redirect("/viewPost?postTitle=" + req.body.postTitle +"&postContent=" + req.body.postContent+"&posterName=" + req.body.posterName +"&postDate=" + req.body.postDate);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
+  
+});
+
+app.post("/newPost", function (req, res) {
+  res.locals = req.session;
+
+    axios
+      .post("http://localhost:2000/api/createPost", {
+        PostTitle: req.body.newpostTitle,
+        Email: req.session.Email,
+        Name: req.session.FirstName + " " + req.session.LastName,
+        PostContent: req.body.postText
+
+      })
+      .then(
+        (response1) => {
+
+          axios
+          .get("http://localhost:2000/api/getPosts", {
+            params: {
+            },
+          })
+          .then(
+            (response2) => {
+              
+              res.locals.posts = response2.data;
+        
+              res.render("messageboard");
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+          
+
+          
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
+
+
+  
+});
+
+
 // Profile Route
 app.get("/viewprofile", function (req, res) {
   console.log("email is:" + req.query.email)
-
+  
   axios
   .get("http://localhost:4000/api/getOneUserByEmail", {
     params: {
@@ -157,7 +290,7 @@ app.get("/viewprofile", function (req, res) {
       
       res.locals.viewPage = response.data;
 
-      res.render("viewprofile");
+      res.render("viewProfile");
     },
     (error) => {
       console.log(error);
@@ -181,6 +314,26 @@ app.get("/editProfile", function (req, res) {
 app.get("/about", function (req, res) {
   res.locals = req.session;
   res.render("about");
+});
+
+app.get("/messageboard", function (req, res) {
+  axios
+  .get("http://localhost:2000/api/getPosts", {
+    params: {
+    },
+  })
+  .then(
+    (response) => {
+      
+      res.locals.posts = response.data;
+
+      res.render("messageboard");
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+  res.locals = req.session;
 });
 
 // Contact Route
@@ -599,9 +752,11 @@ app.post("/login", function (req, res) {
     );
 });
 
+
 app.get("/results", function (req, res) {
 
   console.log('Searching for ' + req.query.search);
+  nameArr =  req.query.search.split(" ");
   console.log("test field: " + req.query.Description);
 
   console.log(`Searching for ${req.query.search}`);
@@ -610,38 +765,29 @@ app.get("/results", function (req, res) {
 
   //run Python script containing the search engine
 /*
+  let pyProcess = spawn('python', [path.join(__dirname, "./search_engine.py"),
+    query]);
 
-   let pyProcess = spawn('python', [path.join(__dirname, "./backend/search_engine.py"),
-    req.query.search]);
+    pyProcess.stdin.setEncoding('utf8');
 
-  pyProcess.stdin.setEncoding('utf8');
-
-  pyProcess.stdout.on('data', function(data){
-
-    if(data === undefined){
-      console.log(`${req.query.search} not found!`);
-      res.render("no-results");
-    }
-    else{
-      console.log(`${req.query.search} found!`);
+    pyProcess.stdout.on('data', function(data){
+      console.log(`Got result from ${result}: ${data}`);
       res.locals.results = data;
-      res.render("results");
-    }
-  });
-
+    });
 
     //close the child_process stream used
-  pyProcess.on('close', (code) => {
-    console.log(`Closing child process for Python with code ${code}`);
-  });
-  
-  8?
+    pyProcess.on('close', (code) => {
+      console.log(`Closing child process for Python with code ${code}`);
+      
+    });
 
- /* For backup
+    */
+
   axios
     .get("http://localhost:4000/api/comphrensiveSearch", {
         params: {
-          SearchQuery: req.body.search,
+          FirstName: nameArr[0],
+          LastName: nameArr[1]
         },
     })
     .then(
@@ -654,6 +800,7 @@ app.get("/results", function (req, res) {
         console.log("No results");
       }
     );
+  
 });
 // Check to see if server is running
 app.listen(8081, function () {

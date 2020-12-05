@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500&family=Varela+Round&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+    <!-- Bootstrap Scripts -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+    <style>
+        body {
+            background-color: rgb(167, 167, 167);
+        }
+
+        .posts {
+            width: 60%;
+            margin: auto;
+        }
+
+        .original-post {
+            margin-bottom: 10px;
+            margin-top: 5%;
+        }
+
+        .user-post-title {
+            font-family: 'Varela Round', sans-serif;
+            font-size: 30px;
+        }
+
+        .card {
+            margin-bottom: 10px;
+            padding: 2%;
+        }
+
+        .name {
+            font-size: 18px;
+        }
+
+        .new-comment {
+            float: right;
+        }
+
+        .comment-section {
+            background-color: white;
+            padding: 2%;
+        }
+
+        .individual-comment {
+            display: flex;
+            padding: 2%;
+            border-radius: 20px;
+            background-color: rgb(167, 167, 167);
+            margin-bottom: 5px;
+        }
+
+        .user-img {
+            background-color: blue;
+            border-radius: 50%;
+            height: 75px;
+            width: 75px;
+            position: absolute;
+        }
+
+        .user-comment {
+            padding: 1px;
+            flex-grow: 1;
+            margin-left: 100px;
+
+        }
+
+        .comment-date {
+            float: right;
+            vertical-align: bottom;
+            padding: 0px;
+            margin: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">ProConnect</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/home">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/messageboard">Message Board</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="posts">
+
+        <div class="original-post">
+            <div class="card">
+
+                <!-- Post title -->
+                <h2 class="user-post-title"><%=PostTitle%></h2>
+
+                <!-- Post author's name -->
+                <!-- Need to implement dynamic date -->
+                <h2 class="name">By: John Doe, Dec 4, 2020</h2>
+
+                <!-- The post's content -->
+                <div class="post-desc">
+                    <!-- Probably have to make it so it only deisplays 'X' amount of text so we can utilze the read more button -->
+                    <p>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+                        the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
+                        of type and scrambled it to make a type specimen book
+                    </p>
+
+                    <!-- Add new comment -->
+                    <div class="add-comment">
+                        <button type="button" class="btn btn-dark new-comment">Add Comment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Container for the comment section -->
+        <div class="comment-section">
+
+            <% for(var i=0; i<comments.length; i++) {%>
+
+                <div class="individual-comment">
+        
+                    <!-- The user's image -->
+                    <div class="user-img">
+        
+                    </div>
+        
+                    <!-- The user's comment -->
+                    <div class="user-comment">
+                        <p>
+                            <%= comments[i].CommentContent%>
+                        </p>
+        
+                        <!-- Date of comment -->
+                        <div class="comment-date">
+                            <p>
+                                Comment posted on: <%= comments[i].CommentTime%> By <a href=/viewProfile?email=<%= comments[i].CommenterEmail%>> <%= comments[i].CommenterName%></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+              
+        
+                    <% } %>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

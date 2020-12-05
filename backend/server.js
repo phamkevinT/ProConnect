@@ -1,7 +1,6 @@
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
-
 const pcRoutes = express.Router();
 const bodyParser = require("body-parser");
 const {spawn} = require('child_process')
@@ -22,7 +21,6 @@ app.use(cors());
 
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
-
 
 
 
@@ -78,6 +76,7 @@ app.get('/api/getOneUserByEmail', (req, res) => {
 })
 
 })
+
 
 /*comphrensiveSearch covers all search functionality. Will perform a search based on whatever is passed in the parameters 
 (FirstName,LastName, Title, maxHourlyRate, minHourlyRate and skills)*/
@@ -200,7 +199,8 @@ app.post('/api/createUser', (req, res) => {
                           Availability:"",
                           Bio:"Write your Bio here",
                           DetailedDescription: "Write your detailed description here",
-                          Password: req.body.Password
+                          Password: req.body.Password,
+                          Image: ""
                         } , function(err, log) {
     if (!log) {
       res.status(400).send("Failed to insert user");
